@@ -1,26 +1,19 @@
-import { ApplicationConfig, provideZoneChangeDetection, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthService } from './features/authentication/services/auth.service';
+import { includeBearerTokenInterceptor } from 'keycloak-angular';
+import { provideKeycloakAngular } from './features/authentication/services/keycloak.config';
 import { routes } from './app.routes';
-import { loadingindicationInterceptor } from './core/interceptors/loading-indicator-interceptor';
+import { authInterceptor } from './shared/http-auth-interceptor';
+
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideKeycloakAngular(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptors([loadingindicationInterceptor]) 
-
-    ),
-    // Initialize the AuthService during app startup
-    {
-      provide: 'APP_INITIALIZER_EFFECT',
-      useFactory: () => {
-        const authService = inject(AuthService);
-        return () => authService.initializeUser(); // Fetch user data
-      },
-      multi: true,
-    },
-  ],
+    provideHttpClient(withInterceptors([authInterceptor]))
+  ]
 };

@@ -1,25 +1,41 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AuthService } from './features/authentication/services/auth.service';
+
 import { LoadingindicatorService } from './core/utils/loading-indicator';
 import { Observable } from 'rxjs';
+import { KeycloakProfile } from 'keycloak-js';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+ // standalone: false,
+  styleUrl: './app.component.scss',
+  imports: [RouterOutlet,NavbarComponent]
 })
 export class AppComponent {
-  title = 'frontend';
-  isAppInitialized = false;
+  title = 'datawranglerclient';
+  public isLoggedIn = false;
+  isAppInitialized = false;public userProfile: KeycloakProfile | null = null;
   loading$: Observable<boolean>; 
-  constructor(private authService: AuthService,private loadingService: LoadingindicatorService) {
+  constructor(
+    private loadingService: LoadingindicatorService
+    
+  )
+     {
     this.loading$ = this.loadingService.loading$;
   }
-  ngOnInit() {
+  async ngOnInit() {
       
-    this.isAppInitialized = !!this.authService.fetchUserData();
+    
    
+  }
+
+  public login() {
+    //this.keycloak.login();
+  }
+
+  public logout() {
+   // this.keycloak.logout();
   }
 }

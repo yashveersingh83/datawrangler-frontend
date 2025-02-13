@@ -1,0 +1,19 @@
+<div *ngIf="submissions$ | async as submissions">
+    <div class="container mt-4">
+      <h2>Submissions</h2>
+      <dx-data-grid [dataSource]="submissions$ | async" [columns]="columns" [editing]="editing" [showBorders]="true"
+        [allowColumnResizing]="true" [columnAutoWidth]="true" [headerFilter]="{ visible: true }"
+        [searchPanel]="{ visible: true, highlightCaseSensitive: true }" (onOptionChanged)="onPagingChange($event)">
+        <dxo-editing mode="popup">
+          [allowUpdating]="true"
+          [allowAdding]="true"
+          [allowDeleting]="true"
+          >
+        </dxo-editing>
+  
+  
+        
+      </dx-data-grid>
+    </div>
+  
+  </div>

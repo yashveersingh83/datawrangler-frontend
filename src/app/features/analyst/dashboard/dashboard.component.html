@@ -1,0 +1,31 @@
+<div *ngIf="dataActions$ | async as dataActions">
+    <div class="container mt-4">
+        <h2>Data actions {{keycloakStatus}} </h2>
+        <dx-data-grid
+          [dataSource]="dataActions$ | async"
+          [columns]="columns"
+          [editing]="editing"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true" 
+          [headerFilter]="{ visible: true }" 
+          [searchPanel]="{ visible: true, highlightCaseSensitive: true }"
+          (onOptionChanged)="onPagingChange($event)"
+        >
+          <dxo-editing     mode="popup"  >
+            [allowUpdating]="true"
+            [allowAdding]="true"
+            [allowDeleting]="true"
+          >
+          </dxo-editing>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[5, 10, 20]"
+            [showInfo]="true"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+      
+  </div>

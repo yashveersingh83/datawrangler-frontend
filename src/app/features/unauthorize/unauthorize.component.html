@@ -1,1 +1,8 @@
-<p>unauthorize works!</p>
+<div>
+    @if (!authenticated) {
+      <button class="action-item" (click)="login()">Login</button>
+    } @else {
+      <button class="action-item" (click)="logout()">Logout</button>
+    }
+  </div>
+  
