@@ -4,6 +4,5 @@ export interface MileStoneModel {
   Targetdate: Date;
   Comments: string;
   Description: string;
-
-  Id: string;
+  id:string
 }

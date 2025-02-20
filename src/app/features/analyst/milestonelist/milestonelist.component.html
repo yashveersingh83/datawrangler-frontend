@@ -1,33 +1,27 @@
-<div *ngIf="mileStones().length > 0">
+<div *ngIf="mileStones.length > 0">
   <div class="container mt-4">
     <h2>Milestones</h2>
 
     <dx-data-grid 
-      [dataSource]="mileStones()" 
-      keyExpr="intId"
-      [columns]="columns" 
+      [dataSource]="mileStones" 
+      keyExpr="id"
       [showBorders]="true"
       [allowColumnResizing]="true" 
       [columnAutoWidth]="true"
-      [editing]="{ mode: 'popup', allowUpdating: true }"
-      (onEditingStart)="onRowEditingStart($event)"  
-      
-      > 
-    
+      [editing]="{
+        mode: 'popup', 
+        allowUpdating: true, 
+        allowAdding: true, 
+        allowDeleting: true,
+        popup: { title: 'Edit Milestone', showTitle: true, width: 600, height: 400 }
+      }"
+      (onRowInserted)="onRowInserted($event)"
+      (onRowUpdated)="onRowUpdated($event)"
+      (onRowRemoved)="onRowRemoved($event)"
+    > 
+      <dxi-column dataField="description" caption="Description"></dxi-column>
+      <dxi-column dataField="comments" caption="Comments"></dxi-column>
+      <dxi-column dataField="targetdate" caption="Target Date" dataType="date"></dxi-column>
     </dx-data-grid>
-    <dx-popup [(visible)]="popupVisible" [width]="600" [height]="400" title="Edit Milestone">
-      <dx-form [formGroup]="milestoneForm">
-        <dxi-item dataField="description" editorType="dxTextBox"></dxi-item>
-        <dxi-item dataField="comments" editorType="dxTextArea"></dxi-item>
-        <dxi-item dataField="targetdate" editorType="dxDateBox"></dxi-item>
-
-        <!-- 🔹 Action Buttons -->
-        <dxi-item>
-          <dx-button text="Save" type="success" (onClick)="onSaveClick()"></dx-button>
-          <dx-button text="Cancel" type="danger" (onClick)="onCancelClick()"></dx-button>
-        </dxi-item>
-      </dx-form>
-    </dx-popup>
-    
   </div>
 </div>

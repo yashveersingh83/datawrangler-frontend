@@ -30,7 +30,8 @@ export class MileStoneService extends BaseService<MileStoneModel> {
   }
 
   /** 🔹 Delete milestone */
-  //deleteMileStone(id: number): Observable<void> {
-   // return this.delete({ Id: id } as MileStoneModel);
- // }
+  deleteMileStone(item: MileStoneModel) {
+     return this.delete(item);
+
+ }
 }

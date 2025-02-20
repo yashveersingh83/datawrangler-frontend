@@ -23,6 +23,7 @@
     "bootstrap": "^5.3.3",
     "devextreme": "24.2.3",
     "devextreme-angular": "24.2.3",
+    "devextreme-aspnet-data-nojquery": "^5.0.0",
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.1.0",
     "rxjs": "~7.8.0",

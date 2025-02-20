@@ -6,5 +6,5 @@ export interface Serializer {
 }
 
 export interface Base {
-    Id: string
+    id: string
 }

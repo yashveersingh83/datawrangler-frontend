@@ -1,5 +1,5 @@
 export interface InformationRequestModel {
-    Id: string;
+    id: string;
     SIRYear: number;
     InformationRequest: string | null;
     RequestNumber: string;

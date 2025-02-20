@@ -13,6 +13,6 @@ export interface ManagerModel {
     ShowWarningIcon: boolean;
     WarningTitle: string;
     ApproverRoleForExcel: string;
-    Id: string;
+    id: string;
   }
   

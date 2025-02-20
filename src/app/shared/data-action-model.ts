@@ -1,5 +1,5 @@
 export interface DataActionRecord {
-    Id: string; // Unique identifier (e.g., a GUID)
+    id: string; // Unique identifier (e.g., a GUID)
     ComparisonDetailsUrl: string; // URL for comparison details
     ResolveConflictsUrl: string; // URL to resolve conflicts
     User: string; // User associated with the record

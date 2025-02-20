@@ -46,14 +46,15 @@ export class BaseService<T extends Base> {
   }
 
   update(item: T): Observable<T> {
+    
     return this.httpClient
-      .put<T>(`${this.url}/${this.endpoint}/${item.Id}`, JSON.stringify(item))
+      .put<T>(`${this.url}/${this.endpoint}/${item.id}`, JSON.stringify(item))
       .pipe(retry(2), catchError(this.handleError));
   }
 
   delete(item: T): Observable<T> {
     return this.httpClient
-      .delete<T>(`${this.url}/${this.endpoint}/${item.Id}`)
+      .delete<T>(`${this.url}/${this.endpoint}/${item.id}`)
       .pipe(retry(2), catchError(this.handleError));
   }
 
