@@ -13,9 +13,20 @@ import { YearService } from '../../../shared/services/year-service';
 })
 export class MilestonelistComponent implements OnInit {
   mileStoneDataSource: any;
-  yearDataSource: any;
+  
   selectedRowData: MileStoneModel | null = null;
-  constructor(private milestoneService: MileStoneService, private yearService: YearService) {
+  yearDataSource = new CustomStore({
+    key: 'year',
+    loadMode:'raw',
+    load: () => {
+      return this.yearService.getYears();
+    },
+    
+      });
+
+  constructor(private milestoneService: MileStoneService,
+     private yearService: YearService) 
+     {
     this.initializeDataSource();
   }
 
@@ -26,24 +37,12 @@ export class MilestonelistComponent implements OnInit {
   /** 🔹 Initialize DevExtreme DataGrid with a CustomStore */
   initializeDataSource() {
     this.initializeMileStoneStore();
-
-
-    this.yearDataSource = new CustomStore({
-      key: 'year',
-      load: () => {
-        return this.yearService.getYears();
-      },
-
-
-    });
-
-
   }
 
 
   private initializeMileStoneStore() {
     this.mileStoneDataSource = new CustomStore({
-      key: 'id', // Ensure `id` is the correct primary key
+      key: 'id', // Ensure id is the correct primary key
 
       // 🔹 Fetch milestone list with pagination
       load: (loadOptions) => {
