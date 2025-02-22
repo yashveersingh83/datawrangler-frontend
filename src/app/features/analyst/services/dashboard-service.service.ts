@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { DataActionRecord } from '../../../shared/data-action-model';
-import { BaseService } from '../../../shared/common-http-service';
+import { BaseService } from '../../../shared/services/common-http-service';
 
 
 @Injectable({

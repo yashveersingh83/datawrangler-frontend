@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import CustomStore from 'devextreme/data/custom_store';
 import { MileStoneService } from '../services/milestone.service';
 import { MileStoneModel } from '../../../shared/milestone-model';
+import { YearService } from '../../../shared/services/year-service';
 
 @Component({
   selector: 'app-milestonelist',
@@ -10,44 +11,87 @@ import { MileStoneModel } from '../../../shared/milestone-model';
   styleUrls: ['./milestonelist.component.scss']
 })
 export class MilestonelistComponent implements OnInit {
-  mileStones: MileStoneModel[] = [];
-  milestoneForm: FormGroup;
-  popupVisible = false;
-  selectedMilestone: MileStoneModel ={id:"0",Comments:'',Description:'',SIRYear:0,
-    Targetdate:new Date()};
+  mileStoneDataSource: any;
+  yearDataSource:any;
+  selectedRowData: MileStoneModel | null = null;
+  constructor(private milestoneService: MileStoneService,private yearService: YearService) {
 
-  constructor(
-    private milestoneService: MileStoneService,
-    private fb: FormBuilder
-  ) {
-    this.milestoneForm = this.fb.group({
-      Id: [''],
-      description: [''],
-      comments: [''],
-      targetdate: ['']
-    });
   }
 
   ngOnInit(): void {
-    this.loadMilestones();
+    this.initializeDataSource();
   }
 
-  loadMilestones() {
-    this.milestoneService.getMileStoneList().subscribe((data) => {
-      this.mileStones = data;
+  /** 🔹 Initialize DevExtreme DataGrid with a CustomStore */
+  initializeDataSource() {
+    this.initializeMileStoneStore();
+this.yearDataSource = new CustomStore({
+  key:'year',
+  load:()=>{
+    return this.yearService.getYears();
+  },
+ 
+
+});
+
+    
+  }
+
+
+  private initializeMileStoneStore() {
+    this.mileStoneDataSource = new CustomStore({
+      key: 'id', // Ensure `id` is the correct primary key
+
+     
+        
+      // 🔹 Fetch milestone list with pagination
+      load: (loadOptions) => {
+        let page = 1; //(loadOptions.skip / loadOptions.take) + 1 || 1;
+        let pageSize = loadOptions.take || 10;
+
+        return this.milestoneService.getMileStoneList(page, pageSize).toPromise();
+      },
+
+      // 🔹 Insert new milestone
+      insert: (values) => {
+        return this.milestoneService.addMileStone(values).toPromise();
+      },
+
+      update: (key, values) => {
+        // Fetch the existing milestone data from the API first
+        return this.milestoneService.getById(key).toPromise().then(existingData => {
+          // Merge the updated values with the existing data
+          const updatedObject = { ...existingData, ...values };
+          return this.milestoneService.updateMileStone(updatedObject).toPromise();
+        });
+      },
+
+      remove: (key) => {
+        return this.milestoneService.deleteMileStone({ id: key, Comments: '', Description: '', SIRYear: 0, Targetdate: new Date() }).toPromise();
+      }
     });
   }
 
-
-  onRowInserted(e: any) {
-    this.milestoneService.addMileStone(e.data).subscribe(() => this.loadMilestones());
+   /** 🔹 Row Editing Start - Store the full object before editing */
+   onRowEditStart(e: any) {
+    this.selectedRowData = { ...e.data }; // Store a copy of the full object when editing starts
   }
+  onRowSaving(e: any) {
+    const updatedData = e.data; // The updated data
+    const key = updatedData.id; // Assuming `id` is the primary key
 
-  onRowUpdated(e: any) {
-    this.milestoneService.updateMileStone(e.data).subscribe(() => this.loadMilestones());
-  }
+    // If we have the full object stored, we can merge it with the updated values
+    if (this.selectedRowData) {
+      const fullObject = { ...this.selectedRowData, ...updatedData }; // Merge the full object with updated fields
 
-  onRowRemoved(e: any) {
-    this.milestoneService.deleteMileStone(e.data).subscribe(() => this.loadMilestones());
+      // Replace the data with the full object
+      e.data = fullObject;
+
+      // You can now send the full object (including unchanged fields) to the API
+      this.milestoneService.updateMileStone(fullObject).subscribe(() => {
+        // After saving, reset the selectedRowData
+        this.selectedRowData = null;
+      });
+    }
   }
 }

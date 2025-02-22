@@ -16,3 +16,7 @@ export interface ManagerModel {
     id: string;
   }
   
+  export interface Years {
+    year: number;
+    description: string;
+  }

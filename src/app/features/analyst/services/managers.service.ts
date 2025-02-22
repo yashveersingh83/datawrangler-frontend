@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ManagerModel } from '../../../shared/manager-model';
-import { BaseService } from '../../../shared/common-http-service';
+import { BaseService } from '../../../shared/services/common-http-service';
 
 
 

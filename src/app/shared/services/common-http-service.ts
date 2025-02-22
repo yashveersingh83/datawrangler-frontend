@@ -2,8 +2,8 @@ import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { Base } from './serializer';
-import { KeycloakAuthService } from '../features/authentication/services/keycloak-auth.service';
+import { Base } from '../serializer';
+import { KeycloakAuthService } from '../../features/authentication/services/keycloak-auth.service';
 
 // Define InjectionTokens for URL and Endpoint
 export const BASE_URL = new InjectionToken<string>('BaseUrl');

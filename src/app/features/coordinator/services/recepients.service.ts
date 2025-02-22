@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { InformationRequestModel } from '../../../shared/info-request-model';
 import { Router } from '@angular/router';
-import { BaseService } from '../../../shared/common-http-service';
+import { BaseService } from '../../../shared/services/common-http-service';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { CoordinatorModel } from '../../../shared/coordinator-model';
 import { KeycloakAuthService } from '../../authentication/services/keycloak-auth.service';

@@ -7,11 +7,12 @@ import { AnalystRoutingModule } from './analyst-routing.module';
 import { MilestonelistComponent } from './milestonelist/milestonelist.component';
 import { ManagerComponent } from './manager/manager.component';
 import { sharedModule } from '../../shared/common-module';
+import { MilestoneModalComponent } from './milestone-modal/milestone-modal.component';
 
 
 
 @NgModule({
-  declarations: [ManagerComponent,MilestonelistComponent],
+  declarations: [ManagerComponent,MilestonelistComponent, MilestoneModalComponent],
   imports: [DevExtremeModule,DxButtonModule,
     CommonModule,
     AnalystRoutingModule,sharedModule

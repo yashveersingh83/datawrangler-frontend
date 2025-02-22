@@ -1,27 +1,49 @@
-<div *ngIf="mileStones.length > 0">
-  <div class="container mt-4">
-    <h2>Milestones</h2>
+<h2>Milestones</h2>
 
-    <dx-data-grid 
-      [dataSource]="mileStones" 
-      keyExpr="id"
-      [showBorders]="true"
-      [allowColumnResizing]="true" 
-      [columnAutoWidth]="true"
-      [editing]="{
-        mode: 'popup', 
-        allowUpdating: true, 
-        allowAdding: true, 
-        allowDeleting: true,
-        popup: { title: 'Edit Milestone', showTitle: true, width: 600, height: 400 }
-      }"
-      (onRowInserted)="onRowInserted($event)"
-      (onRowUpdated)="onRowUpdated($event)"
-      (onRowRemoved)="onRowRemoved($event)"
-    > 
-      <dxi-column dataField="description" caption="Description"></dxi-column>
-      <dxi-column dataField="comments" caption="Comments"></dxi-column>
-      <dxi-column dataField="targetdate" caption="Target Date" dataType="date"></dxi-column>
-    </dx-data-grid>
-  </div>
-</div>
+<dx-data-grid
+  [dataSource]="mileStoneDataSource"
+  [remoteOperations]="true"
+  [width]="'100%'"
+  [height]="600"
+  [showBorders]="true"
+  (onRowEditStart)="onRowEditStart($event)"
+  (onRowSaving)="onRowSaving($event)"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  
+
+  <dxo-editing
+    mode="popup"
+    [allowAdding]="true"
+    [allowUpdating]="true"
+    [allowDeleting]="true"
+  ></dxo-editing>
+
+  <dxi-column dataField="description" caption="Description">
+    <dxi-validation-rule
+    type="required"
+    message="The Description field is required."
+  ></dxi-validation-rule>
+  </dxi-column>
+  <dxi-column dataField="comments" caption="Comments"></dxi-column>
+  <dxi-column dataField="sirYear" caption="Year">
+    <!-- <dxo-lookup
+    [dataSource]="yearDataSource"
+    valueExpr="year"
+    displayExpr="year"
+  ></dxo-lookup> -->
+  </dxi-column>
+  <dxi-column dataField="targetdate" caption="Target Date" dataType="date">
+    <dxi-validation-rule
+    type="required"
+    message="The targetdate field is required."
+  ></dxi-validation-rule>
+  </dxi-column>
+  
+
+  <dxo-summary>
+    <dxi-total-item column="description" summaryType="count"></dxi-total-item>
+  </dxo-summary>
+</dx-data-grid>
