@@ -18,13 +18,13 @@ export class InformationrequestComponent {
       // Define columns
       this.columns = [
         { dataField: 'Id', caption: 'ID', allowEditing: false },
-        { dataField: 'SIRYear', caption: 'Year', allowEditing: false },
-        { dataField: 'RequestNumber', caption: 'RequestNumber' },
-        { dataField: 'CoordinatorName', caption: 'CoordinatorName', dataType: 'string' },  
-        { dataField: 'SubmissionType', caption: 'SubmissionType', dataType: 'string' },          
+        { dataField: 'sIRYear', caption: 'Year', allowEditing: false },
+        { dataField: 'requestNumber', caption: 'RequestNumber' },
+        { dataField: 'coordinatorName', caption: 'CoordinatorName', dataType: 'string' },  
+        { dataField: 'submissionType', caption: 'SubmissionType', dataType: 'string' },          
         
         {
-          dataField: 'InformationSought',
+          dataField: 'informationSought',
           caption: 'InformationSought',
           dataType: 'string'
         }

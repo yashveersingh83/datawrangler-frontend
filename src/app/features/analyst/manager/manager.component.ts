@@ -21,17 +21,15 @@ export class ManagerComponent implements OnInit {
   constructor(private managerService: ManagerService) {
 
     this.columns = [
-      { dataField: 'Id', caption: 'ID', allowEditing: false ,visible: false},
-      { dataField: 'Division', caption: 'Division', allowEditing: false },
-      { dataField: 'SectionCode', caption: 'Section' },
-      { dataField: 'FullName', caption: 'Name', dataType: 'string' },  
-      { dataField: 'FunctionalTitle', caption: 'FunctionalTitle', dataType: 'string' },          
+      { dataField: 'id', caption: 'ID', allowEditing: false ,visible: false},
+      { dataField: 'ddsuCode', caption: 'DDSUCode', allowEditing: false },      
+      { dataField: 'division', caption: 'Division', allowEditing: false },
+      { dataField: 'sectionCode', caption: 'Section Code' },      
+      { dataField: 'fullName', caption: 'Name', dataType: 'string' },  
+      { dataField: 'functionalTitle', caption: 'FunctionalTitle', dataType: 'string' },  
+      { dataField: 'personnelNumber', caption: 'Personnel Number', dataType: 'string' },  
       
-      {
-        dataField: 'CoordinatorRoles',
-        caption: 'Roles',
-        dataType: 'string'
-      }
+     
     ];
 
     // Editing configuration

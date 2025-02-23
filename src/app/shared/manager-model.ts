@@ -1,18 +1,18 @@
 export interface ManagerModel {
-    DDSUCode: string;
-    Division: string;
-    DivisionCode: string;
-    SectionCode: string;
-    FullName: string;
-    FunctionalTitle: string;
-    ApproverRole: boolean;
-    ContributorRole: boolean;
-    CoordinatorRoles: string;
-    PersonnelNumber: string;
-    ManagerComment: string;
-    ShowWarningIcon: boolean;
-    WarningTitle: string;
-    ApproverRoleForExcel: string;
+  ddsuCode: string;
+    division: string;
+    divisionCode: string;
+    sectionCode: string;
+    fullName: string;
+    functionalTitle: string;
+    approverRole: boolean;
+    contributorRole: boolean;
+    coordinatorRoles: string;
+    personnelNumber: string;
+    managerComment: string;
+    showWarningIcon: boolean;
+    warningTitle: string;
+    approverRoleForExcel: string;
     id: string;
   }
   

@@ -18,16 +18,14 @@ columns: any[];
       // Define columns
       this.columns = [
         
-        { dataField: 'Id', caption: 'ID', allowEditing: false ,visible: false},
-        { dataField: 'Division', caption: 'Division', allowEditing: false },
-        { dataField: 'CoordinatorName', caption: 'Name' },
-        { dataField: 'Comments', caption: 'Comments', dataType: 'string' },       
+        { dataField: 'id', caption: 'ID', allowEditing: false ,visible: false},
+        { dataField: 'division', caption: 'Division', allowEditing: false },
+        { dataField: 'coordinatorName', caption: 'Name' },
+        { dataField: 'organizationalUnitName', caption: 'Organizational Unit', dataType: 'string' },       
+        { dataField: 'comments', caption: 'Comments', dataType: 'string' },   
+        { dataField: 'isActive', caption: 'Active', dataType: 'bool' },       
         
-        {
-          dataField: 'CoordinatorRoles',
-          caption: 'Roles',
-          dataType: 'string'
-        }
+      
       ];
   
       // Editing configuration

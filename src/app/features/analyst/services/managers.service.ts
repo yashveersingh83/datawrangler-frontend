@@ -17,7 +17,7 @@ export class ManagerService extends BaseService<ManagerModel> {
 
   constructor(httpClient: HttpClient, private router: Router, ) {
     // Call the parent constructor with base URL and endpoint for user data
-    super(httpClient, 'http://localhost:3000', 'managers');
+    super(httpClient, 'http://localhost:5212/api', 'Manager');
   }
 
   getManagerList(): Observable<ManagerModel[]> {

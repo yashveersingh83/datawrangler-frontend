@@ -1,62 +1,34 @@
 export interface InformationRequestModel {
     id: string;
-    SIRYear: number;
-    InformationRequest: string | null;
-    RequestNumber: string;
-    RequestNumberIntPart: number;
-    RequestNumberPrefix: string | null;
-    RecipientID: number;
-    DDSUCode: string;
-    SubmissionType: string;
-    ExistingSubmissionType: string | null;
-    InformationSought: string;
-    SPQComment: string;
-    WorksheetAvailabilityDate: string; // This is a string as it seems like a date format in JSON
-    WorksheetType: string | null;
-    MilestoneID: number;
-    MileStoneDate: string; // This is a string as it seems like a date format in JSON
-    MileStoneDateString: string;
-    Approver: string;
-    ApproverName: string;
-    InputWorksheetLink: string | null;
-    LatestSubmittedWorksheetLink: string | null;
-    WorksheetDetails: string | null;
-    WorksheetTabs: string | null;
-    RequestStatusID: number;
-    LastModifiedBy: string;
-    LastModifiedDate: string;
-    OrganizationalUnitName: string;
-    RequestStatus: string;
-    RequestStatusType: number;
-    RequestStatusText: string;
-    CoordinatorName: string;
-    RequestDetailsUrl: string;
-    RequestEditUrl: string;
-    SubmissionUrl: string;
-    SubmitInformationForBulkRequestUrl: string | null;
-    StatusModifiedDate: string;
-    IsAccessibleByDivision: boolean;
-    WorksheetLinkDownloadPage: string | null;
-    WorksheetLinkFolder: string | null;
-    NumberOfSubmissions: number;
-    IsApproverInRole: boolean;
-    IsCoordinatorInRole: boolean;
-    IsInRole: boolean;
-    IsOnRedLine: boolean;
-    ShowRelease: boolean;
-    ShowSubmit: boolean;
-    ShowApprove: boolean;
-    ShowAccept: boolean;
-    ShowRejectByApprover: boolean;
-    ShowRejectByAnalyst: boolean;
-    ShowResetByAnalyst: boolean;
-    ShowRecall: boolean;
-    IsEditable: boolean;
-    ShowDelete: boolean;
-    ShowCancel: boolean;
-    IsFinishedBeforeDeadline: boolean;
-    IsFinishedBeforeDeadlineAndCurrentDate: boolean;
-    IsDeadlineAppraching: boolean;
-    StatusClass: string;
+    sIRYear: number;
+    informationRequest: string | null;
+    requestNumber: string;  
+    
+    recipientID: number;
+    ddsuCode: string;
+    submissionType: string;
+    existingSubmissionType: string | null;
+    informationSought: string;
+    spqComment: string;
+    worksheetAvailabilityDate: string; // This is a string as it seems like a date format in JSON
+    worksheetType: string | null;
+    milestoneID: number;
+    mileStoneDate: string; // This is a string as it seems like a date format in JSON
+    
+    approver: string;
+    approverName: string;
+    inputWorksheetLink: string | null;
+    latestSubmittedWorksheetLink: string | null;
+    worksheetDetails: string | null;
+    worksheetTabs: string | null;
+    requestStatusID: number;
+    lastModifiedBy: string;
+    lastModifiedDate: string;
+    organizationalUnitName: string;
+    requestStatus: string;
+    requestStatusType: number;    
+    coordinatorName: string;
+    statusModifiedDate: string;
+    
   }
   
