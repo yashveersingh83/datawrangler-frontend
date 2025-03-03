@@ -7,9 +7,15 @@ import { InformationrequestComponent } from './informationrequest/informationreq
 import { SubmissionlistComponent } from './submissionlist/submissionlist.component';
 import { CoordinatorlistComponent } from './coordinatorlist/coordinatorlist.component';
 
+import { InfoRequestAddComponent } from './info-request-add/info-request-add.component';
+
 
 @NgModule({
-  declarations: [InformationrequestComponent,SubmissionlistComponent, CoordinatorlistComponent],
+  declarations: [InformationrequestComponent
+    ,SubmissionlistComponent, 
+    CoordinatorlistComponent, 
+    
+    InfoRequestAddComponent],
   imports: [DevExtremeModule,DxButtonModule,
     CommonModule,
     CoordinatorRoutingModule,

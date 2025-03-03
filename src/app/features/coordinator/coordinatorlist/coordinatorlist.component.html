@@ -1,6 +1,6 @@
 <div *ngIf="coordinators$ | async as coordinators">
     <div class="container mt-4">
-      <h2>Submissions</h2>
+      <h2>Coordinators</h2>
       <dx-data-grid [dataSource]="coordinators$ | async" [columns]="columns" [editing]="editing" [showBorders]="true"
         [allowColumnResizing]="true" [columnAutoWidth]="true" [headerFilter]="{ visible: true }"
         [searchPanel]="{ visible: true, highlightCaseSensitive: true }" (onOptionChanged)="onPagingChange($event)">
