@@ -1,8 +1,8 @@
 
 export interface MileStoneModel {
-  SIRYear: number;
-  Targetdate: Date;
-  Comments: string;
-  Description: string;
+  sirYear: number;
+  targetdate: Date;
+  comments: string;
+  description: string;
   id:string
 }

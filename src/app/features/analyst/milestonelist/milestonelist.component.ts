@@ -67,7 +67,7 @@ export class MilestonelistComponent implements OnInit {
       },
 
       remove: (key) => {
-        return this.milestoneService.deleteMileStone({ id: key, Comments: '', Description: '', SIRYear: 0, Targetdate: new Date() }).toPromise();
+        return this.milestoneService.deleteMileStone({ id: key, comments: '', description: '', sirYear: 0, targetdate: new Date() }).toPromise();
       }
     });
   }

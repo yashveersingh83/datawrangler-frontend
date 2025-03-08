@@ -1,0 +1,75 @@
+<form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow bg-white">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="form-label">Request Number</label>
+        <input formControlName="requestNumber" class="form-control" />
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Year</label>
+        <input formControlName="sirYear" class="form-control" />
+      </div>
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label class="form-label">Deadline</label>
+        <select  formControlName="selectedMilestoneId" class="form-control" >
+            <option *ngFor="let milestone of milestones" [value]="milestone.id">
+                {{ milestone.targetdate | date: 'mediumDate' }} 
+            
+            </option>
+        </select>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Submission Type</label>
+        <select formControlName="submissionType" class="form-control">
+          <option *ngFor="let type of submissionTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label class="form-label">Unit</label>
+        <input formControlName="organizationalUnitName" class="form-control" />
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Coordinator</label>
+        <select formControlName="selectedCoordinatorId" class="form-control">
+          <option *ngFor="let coordinator of coordinators" [value]="coordinator.id">{{ coordinator.fullName }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <label class="form-label">Worksheet Type</label>
+        <input formControlName="worksheetType" class="form-control" />
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Approver</label>
+        <select formControlName="selectedApproverId" class="form-control">
+          <option *ngFor="let approver of approvers" [value]="approver.id">{{ approver.fullName }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <label class="form-label">Request Status</label>
+        <input formControlName="requestStatus" class="form-control" />
+      </div>
+    </div>
+  
+    <!-- Buttons -->
+    <div class="row mt-4 text-center">
+      <div class="col">
+        <button type="submit" class="btn btn-success me-2">Save</button>
+        <button type="button" (click)="onCancel()" class="btn btn-danger">Cancel</button>
+      </div>
+    </div>
+  </form>

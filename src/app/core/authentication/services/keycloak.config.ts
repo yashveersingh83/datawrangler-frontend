@@ -7,18 +7,17 @@ import {
     AutoRefreshTokenService,
     UserActivityService
   } from 'keycloak-angular';
-import { environment } from '../../../../environments/environment';
   
   const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-    urlPattern: environment.localHostUrlPattern
+    urlPattern: /^(http:\/\/localhost:8080)(\/.*)?$/i
   });
   
   export const provideKeycloakAngular = () =>
     provideKeycloak({
       config: {
-        realm: environment.realm,
-        url: environment.keyclockServerUrl,
-        clientId: environment.keyclockClientId
+        realm: 'Datawrangler',
+        url: 'http://localhost:7080/',
+        clientId: 'datawranglerclient'
       },
       initOptions: {
         onLoad: 'check-sso',

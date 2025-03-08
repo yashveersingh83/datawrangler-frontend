@@ -1,18 +1,16 @@
 export interface InformationRequestModel {
     id: string;
-    sIRYear: number;
+    sirYear: number;
     informationRequest: string | null;
-    requestNumber: string;  
+    requestNumber: string;     
     
-    recipientID: number;
     ddsuCode: string;
     submissionType: string;
     existingSubmissionType: string | null;
     informationSought: string;
     spqComment: string;
     worksheetAvailabilityDate: string; // This is a string as it seems like a date format in JSON
-    worksheetType: string | null;
-    milestoneID: number;
+    worksheetType: string | null;    
     mileStoneDate: string; // This is a string as it seems like a date format in JSON
     
     approver: string;
@@ -21,14 +19,18 @@ export interface InformationRequestModel {
     latestSubmittedWorksheetLink: string | null;
     worksheetDetails: string | null;
     worksheetTabs: string | null;
-    requestStatusID: number;
+    
     lastModifiedBy: string;
     lastModifiedDate: string;
     organizationalUnitName: string;
     requestStatus: string;
     requestStatusType: number;    
-    coordinatorName: string;
-    statusModifiedDate: string;
+    coordinatorName: string| null;
+    statusModifiedDate: string| null;
+    requestStatusID:string| null;
+    milestoneID:string| null;
+    recipientID:string| null;
+    approverID:string|null;
     
   }
   

@@ -8,11 +8,15 @@ import { MilestonelistComponent } from './milestonelist/milestonelist.component'
 import { ManagerComponent } from './manager/manager.component';
 import { sharedModule } from '../../shared/common-module';
 import { MilestoneModalComponent } from './milestone-modal/milestone-modal.component';
+import { InformationrequestComponent } from './informationrequest/informationrequest.component';
+import { InfoRequestAddComponent } from './info-request-add/info-request-add.component';
 
 
 
 @NgModule({
-  declarations: [ManagerComponent,MilestonelistComponent, MilestoneModalComponent],
+  declarations: [ManagerComponent,MilestonelistComponent, 
+    InformationrequestComponent,InfoRequestAddComponent,
+    MilestoneModalComponent],
   imports: [DevExtremeModule,DxButtonModule,
     CommonModule,
     AnalystRoutingModule,sharedModule

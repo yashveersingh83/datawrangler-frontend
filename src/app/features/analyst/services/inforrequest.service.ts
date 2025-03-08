@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BaseService } from '../../../shared/services/common-http-service';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { KeycloakAuthService } from '../../authentication/services/keycloak-auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class InforrequestService extends BaseService<InformationRequestModel> {
 
   constructor(httpClient: HttpClient, private router: Router) {
     // Call the parent constructor with base URL and endpoint for user data
-    super(httpClient, 'http://localhost:5212/api', 'InformationRequest');
+    super(httpClient, environment.apiUrl, 'InformationRequest');
   }
 
   

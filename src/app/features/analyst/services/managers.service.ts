@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ManagerModel } from '../../../shared/manager-model';
 import { BaseService } from '../../../shared/services/common-http-service';
+import { environment } from '../../../../environments/environment';
 
 
 
@@ -17,7 +18,7 @@ export class ManagerService extends BaseService<ManagerModel> {
 
   constructor(httpClient: HttpClient, private router: Router, ) {
     // Call the parent constructor with base URL and endpoint for user data
-    super(httpClient, 'http://localhost:5212/api', 'Manager');
+    super(httpClient, environment.apiUrl, 'Manager');
   }
 
   getManagerList(): Observable<ManagerModel[]> {

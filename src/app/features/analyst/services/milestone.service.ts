@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { MileStoneModel } from '../../../shared/milestone-model';
 import { BaseService } from '../../../shared/services/common-http-service';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { BaseService } from '../../../shared/services/common-http-service';
 export class MileStoneService extends BaseService<MileStoneModel> {
   
   constructor(httpClient: HttpClient, private router: Router) {
-    super(httpClient, 'http://localhost:5212/api', 'Milestone'); // Use BaseService logic
+    super(httpClient, environment.apiUrl, 'Milestone'); // Use BaseService logic
   }
 
   getMileStoneList(page: number = 1, pageSize: number = 10): Observable<{ data: MileStoneModel[], totalCount: number }> {

@@ -6,6 +6,7 @@ import { canActivateAuthRole } from '../authentication/gaurds/auth.gaurd';
 
 import { ManagerComponent } from './manager/manager.component';
 import { MilestonelistComponent } from './milestonelist/milestonelist.component';
+import { InformationrequestComponent } from './informationrequest/informationrequest.component';
 
 const routes: Routes = [
 
@@ -17,7 +18,10 @@ const routes: Routes = [
     component: ManagerComponent, canActivate: [canActivateAuthRole], data: { role: 'Analyst' }
     //canActivate: [CoordinatorAuthGuard],
   },
-
+  {    path: 'informationrequest',
+    component: InformationrequestComponent    , canActivate: [canActivateAuthRole],data: { role: 'Analyst' }
+    //canActivate: [CoordinatorAuthGuard],
+  },
 
 ];
 
