@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { ManagerModel } from '../../../shared/manager-model';
 import { BaseService } from '../../../shared/services/common-http-service';
 import { environment } from '../../../../environments/environment';
+import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
 
 
 
@@ -34,4 +35,25 @@ export class ManagerService extends BaseService<ManagerModel> {
           })
         );
       }
+
+      getContributors(): Observable<ManagerModel[]> {
+        return this.getManagerList().pipe(
+          map((managers: ManagerModel[]) => 
+            managers.filter(manager => manager.contributorRole === true)
+          ),
+          tap(filtered => {
+            console.log('Filtered contributors:', filtered);
+          }),
+          catchError(error => {
+            console.error('Error filtering contributors:', error);
+            this.router.navigate(['/error']);
+            return throwError(error);
+          })
+        );
+      }
+
+      getOrgUnits(): Observable<OrganizationalUnitModel[]> {
+        return this.getByCustomPath<OrganizationalUnitModel[]>('GetOrgUnits');
+      }
+      
 }

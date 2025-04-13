@@ -1,75 +1,127 @@
 <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow bg-white">
-    <div class="row">
-      <div class="col-md-6">
-        <label class="form-label">Request Number</label>
-        <input formControlName="requestNumber" class="form-control" />
-      </div>
-  
-      <div class="col-md-6">
-        <label class="form-label">Year</label>
-        <input formControlName="sirYear" class="form-control" />
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Request Number</label>
+      <input formControlName="requestNumber" class="form-control" [class.is-invalid]="requestForm.get('requestNumber')?.invalid && requestForm.get('requestNumber')?.touched" />
+      <div *ngIf="requestForm.get('requestNumber')?.invalid && requestForm.get('requestNumber')?.touched" class="invalid-feedback">
+        Request number is required
       </div>
     </div>
-  
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <label class="form-label">Deadline</label>
-        <select  formControlName="selectedMilestoneId" class="form-control" >
-            <option *ngFor="let milestone of milestones" [value]="milestone.id">
-                {{ milestone.targetdate | date: 'mediumDate' }} 
-            
-            </option>
-        </select>
-      </div>
-  
-      <div class="col-md-6">
-        <label class="form-label">Submission Type</label>
-        <select formControlName="submissionType" class="form-control">
-          <option *ngFor="let type of submissionTypes" [value]="type">{{ type }}</option>
-        </select>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Year</label>
+      <select formControlName="sirYear" class="form-control" [class.is-invalid]="requestForm.get('sirYear')?.invalid && requestForm.get('sirYear')?.touched">
+        <option value="">Select Year</option>
+        <option *ngFor="let year of years" [ngValue]="year.year">
+          {{ year.year }}
+        </option>
+      </select>
+      <div *ngIf="requestForm.get('sirYear')?.invalid && requestForm.get('sirYear')?.touched" class="invalid-feedback">
+        Year is required
       </div>
     </div>
-  
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <label class="form-label">Unit</label>
-        <input formControlName="organizationalUnitName" class="form-control" />
-      </div>
-  
-      <div class="col-md-6">
-        <label class="form-label">Coordinator</label>
-        <select formControlName="selectedCoordinatorId" class="form-control">
-          <option *ngFor="let coordinator of coordinators" [value]="coordinator.id">{{ coordinator.fullName }}</option>
-        </select>
-      </div>
-    </div>
-  
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <label class="form-label">Worksheet Type</label>
-        <input formControlName="worksheetType" class="form-control" />
-      </div>
-  
-      <div class="col-md-6">
-        <label class="form-label">Approver</label>
-        <select formControlName="selectedApproverId" class="form-control">
-          <option *ngFor="let approver of approvers" [value]="approver.id">{{ approver.fullName }}</option>
-        </select>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Deadline</label>
+      <select formControlName="selectedMilestoneId" class="form-control" [class.is-invalid]="requestForm.get('selectedMilestoneId')?.invalid && requestForm.get('selectedMilestoneId')?.touched">
+        <option value="">Select Milestone</option>
+        <option *ngFor="let milestone of milestones" [value]="milestone.id">
+          {{ milestone.targetdate | date: 'mediumDate' }} - {{ milestone.description }}
+        </option>
+      </select>
+      <div *ngIf="requestForm.get('selectedMilestoneId')?.invalid && requestForm.get('selectedMilestoneId')?.touched" class="invalid-feedback">
+        Deadline is required
       </div>
     </div>
-  
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <label class="form-label">Request Status</label>
-        <input formControlName="requestStatus" class="form-control" />
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Submission Type</label>
+      <select formControlName="submissionType" class="form-control" [class.is-invalid]="requestForm.get('submissionType')?.invalid && requestForm.get('submissionType')?.touched">
+        <option value="">Select Type</option>
+        <option *ngFor="let type of submissionTypes" [value]="type">{{ type }}</option>
+      </select>
+      <div *ngIf="requestForm.get('submissionType')?.invalid && requestForm.get('submissionType')?.touched" class="invalid-feedback">
+        Submission type is required
       </div>
     </div>
-  
-    <!-- Buttons -->
-    <div class="row mt-4 text-center">
-      <div class="col">
-        <button type="submit" class="btn btn-success me-2">Save</button>
-        <button type="button" (click)="onCancel()" class="btn btn-danger">Cancel</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Unit</label>
+      <select formControlName="organizationalUnitName" class="form-control" [class.is-invalid]="requestForm.get('organizationalUnitName')?.invalid && requestForm.get('organizationalUnitName')?.touched">
+        <option value="">Select Unit</option>
+        <option *ngFor="let unit of orgUnits" [value]="unit.description">
+          {{ unit.description }} ({{ unit.sectionCode }})
+        </option>
+      </select>
+      <div *ngIf="requestForm.get('organizationalUnitName')?.invalid && requestForm.get('organizationalUnitName')?.touched" class="invalid-feedback">
+        Unit is required
       </div>
     </div>
-  </form>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Coordinator</label>
+      <select formControlName="selectedCoordinatorId" class="form-control" [class.is-invalid]="requestForm.get('selectedCoordinatorId')?.invalid && requestForm.get('selectedCoordinatorId')?.touched">
+        <option value="">Select Coordinator</option>
+        <option *ngFor="let coordinator of coordinators" [value]="coordinator.id">
+          {{ coordinator.fullName }}
+        </option>
+      </select>
+      <div *ngIf="requestForm.get('selectedCoordinatorId')?.invalid && requestForm.get('selectedCoordinatorId')?.touched" class="invalid-feedback">
+        Coordinator is required
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Worksheet Type</label>
+      <input formControlName="worksheetType" class="form-control" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Approver</label>
+      <select formControlName="selectedApproverId" class="form-control" [class.is-invalid]="requestForm.get('selectedApproverId')?.invalid && requestForm.get('selectedApproverId')?.touched">
+        <option value="">Select Approver</option>
+        <option *ngFor="let approver of approvers" [value]="approver.id">
+          {{ approver.fullName }}
+        </option>
+      </select>
+      <div *ngIf="requestForm.get('selectedApproverId')?.invalid && requestForm.get('selectedApproverId')?.touched" class="invalid-feedback">
+        Approver is required
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label class="form-label">Request Status</label>
+      <input formControlName="requestStatus" class="form-control" [class.is-invalid]="requestForm.get('requestStatus')?.invalid && requestForm.get('requestStatus')?.touched" />
+      <div *ngIf="requestForm.get('requestStatus')?.invalid && requestForm.get('requestStatus')?.touched" class="invalid-feedback">
+        Status is required
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional fields -->
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label class="form-label">Information Sought</label>
+      <textarea formControlName="informationSought" class="form-control" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="row mt-4 text-center">
+    <div class="col">
+      <button type="submit" class="btn btn-success me-2" [disabled]="requestForm.invalid || isSubmitting">
+        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
+        {{ isSubmitting ? 'Saving...' : 'Save' }}
+      </button>
+      <button type="button" (click)="onCancel()" class="btn btn-danger" [disabled]="isSubmitting">Cancel</button>
+    </div>
+  </div>
+</form>

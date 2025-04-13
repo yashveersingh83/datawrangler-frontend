@@ -7,8 +7,9 @@ import { YearService } from '../../../shared/services/year-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InforrequestService } from '../services/inforrequest.service';
 import { ManagerService } from '../services/managers.service';
-import { ManagerModel } from '../../../shared/manager-model';
+import { ManagerModel, Years } from '../../../shared/manager-model';
 import { MileStoneModel } from '../../../shared/milestone-model';
+import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
 
 @Component({
   selector: 'app-informationrequest',
@@ -27,21 +28,23 @@ export class InformationrequestComponent {
   coordinators: ManagerModel[]=[]
   approvers: ManagerModel[]=[] ;
   milestones: MileStoneModel[] = [];
+  years:Years[]=[];
   showForm: boolean = false;
-  yearDataSource = new CustomStore({
-    key: 'year',
-    loadMode: 'raw',
-    load: () => {
-      return this.yearService.getYears();
-    }
-  });
+  orgUnits:OrganizationalUnitModel[]=[];
+  // yearDataSource = new CustomStore({
+  //   key: 'year',
+   
+  //   load: () => {
+  //     return this.yearService.getYears();
+  //   }
+  // });
 
-  mileStoneDataSource = new CustomStore({
-    key: 'id',
-    load: () => {
-      return this.mileStoneService.getMileStoneList();
-    }
-  });
+  // mileStoneDataSource = new CustomStore({
+  //   key: 'id',
+  //   load: () => {
+  //     return this.mileStoneService.getMileStoneList();
+  //   }
+  // });
 
   constructor(
     private fb: FormBuilder,
@@ -53,11 +56,21 @@ export class InformationrequestComponent {
     this.initializeDataSource();
     approverSerive.getManagerList().subscribe( 
       managers =>{
-        this.approvers = managers;
-        // managers can be coordinators as well 
-        this.coordinators =managers;
+        this.approvers = managers;    
       
       });
+
+      approverSerive.getContributors().subscribe( 
+        coordinators =>{         
+          this.coordinators =coordinators;
+        });
+
+        approverSerive.getOrgUnits().subscribe( 
+          units =>{         
+            this.orgUnits =units;
+          });
+
+
       this.mileStoneService.getMileStoneList()
       .subscribe(mileStones =>  {
         this.milestones = mileStones.data; })

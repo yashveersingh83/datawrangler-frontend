@@ -1,19 +1,24 @@
-<div *ngIf="coordinators$ | async as coordinators">
-    <div class="container mt-4">
-      <h2>Coordinators</h2>
-      <dx-data-grid [dataSource]="coordinators$ | async" [columns]="columns" [editing]="editing" [showBorders]="true"
-        [allowColumnResizing]="true" [columnAutoWidth]="true" [headerFilter]="{ visible: true }"
-        [searchPanel]="{ visible: true, highlightCaseSensitive: true }" (onOptionChanged)="onPagingChange($event)">
-        <dxo-editing mode="popup">
-          [allowUpdating]="true"
-          [allowAdding]="true"
-          [allowDeleting]="true"
-          >
-        </dxo-editing>
-  
-  
-        
-      </dx-data-grid>
-    </div>
-  
+<div *ngIf="managers().length > 0">
+  <div class="container mt-4">
+    <h2>Coordinators</h2>
+    <dx-data-grid 
+      [dataSource]="managers()" 
+      [columns]="columns" 
+      [editing]="editing" 
+      [showBorders]="true"
+      [allowColumnResizing]="true" 
+      [columnAutoWidth]="true" 
+      [headerFilter]="{ visible: true }"
+      [searchPanel]="{ visible: true, highlightCaseSensitive: true }"
+      (onOptionChanged)="onPagingChange($event)">
+      
+      <dxo-editing 
+        [mode]="'popup'"
+        [allowUpdating]="true"
+        [allowAdding]="true"
+        [allowDeleting]="true">
+      </dxo-editing>
+      
+    </dx-data-grid>
   </div>
+</div>

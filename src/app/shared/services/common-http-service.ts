@@ -58,6 +58,12 @@ export class BaseService<T extends Base> {
       .pipe(retry(2), catchError(this.handleError));
   }
 
+  getByCustomPath<T>(path: string): Observable<T> {
+    return this.httpClient.get<T>(`${this.url}/${this.endpoint}/${path}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
 

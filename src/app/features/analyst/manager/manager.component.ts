@@ -27,7 +27,9 @@ export class ManagerComponent implements OnInit {
       { dataField: 'sectionCode', caption: 'Section Code' },      
       { dataField: 'fullName', caption: 'Name', dataType: 'string' },  
       { dataField: 'functionalTitle', caption: 'FunctionalTitle', dataType: 'string' },  
-      { dataField: 'personnelNumber', caption: 'Personnel Number', dataType: 'string' },  
+      { dataField: 'personnelNumber', caption: 'Personnel Number', dataType: 'string' },
+      { dataField: 'contributorRole', caption: 'IsCoordinator', dataType: 'bool' },
+      { dataField: 'approverRole', caption: 'IsApprover', dataType: 'bool' },
       
      
     ];

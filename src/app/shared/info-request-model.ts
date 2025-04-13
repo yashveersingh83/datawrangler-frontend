@@ -17,20 +17,21 @@ export interface InformationRequestModel {
     approverName: string;
     inputWorksheetLink: string | null;
     latestSubmittedWorksheetLink: string | null;
-    worksheetDetails: string | null;
-    worksheetTabs: string | null;
+     worksheetDetails: string | null;
+     worksheetTabs: string | null;
     
-    lastModifiedBy: string;
-    lastModifiedDate: string;
+    //lastModifiedBy: string;
+    //lastModifiedDate: string;
     organizationalUnitName: string;
     requestStatus: string;
     requestStatusType: number;    
     coordinatorName: string| null;
-    statusModifiedDate: string| null;
+    //statusModifiedDate: string| null;
     requestStatusID:string| null;
     milestoneID:string| null;
     recipientID:string| null;
     approverID:string|null;
+    organizationalUnitID: string;
     
   }
   

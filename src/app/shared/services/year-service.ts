@@ -15,7 +15,10 @@ export class YearService {
       { year: 2020, description: 'Year of the Pandemic' },
       { year: 2021, description: 'Year of Recovery' },
       { year: 2022, description: 'Year of Growth' },
-      { year: 2023, description: 'Year of Innovation' }
+      { year: 2023, description: 'Year of Innovation' },
+      { year: 2024, description: 'Year of Innovation' },
+      { year: 2025, description: 'Year of Innovation' },
+
     ];
   }
   getYear(key: any): Years {
