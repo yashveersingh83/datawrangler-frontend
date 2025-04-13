@@ -32,6 +32,7 @@ export interface InformationRequestModel {
     recipientID:string| null;
     approverID:string|null;
     organizationalUnitID: string;
+    submissionTypeID: string;
     
   }
   

@@ -8,88 +8,69 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InforrequestService } from '../services/inforrequest.service';
 import { ManagerService } from '../services/managers.service';
 import { ManagerModel, Years } from '../../../shared/manager-model';
-import { MileStoneModel } from '../../../shared/milestone-model';
+import { MileStoneModel, RequestStatusModel, SubmissionTypeModel } from '../../../shared/milestone-model';
 import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
+import { LookupDataService } from '../../../shared/services/lookup-data-service';
 
 @Component({
   selector: 'app-informationrequest',
   templateUrl: './informationrequest.component.html',
-  standalone:false,
+  standalone: false,
   styleUrls: ['./informationrequest.component.scss']
 })
 export class InformationrequestComponent {
-  informationRequestDataSource: any;
-  requestForm: FormGroup;
+  informationRequestDataSource: any;  
   selectedRequest: InformationRequestModel | null = null;
   isPopupVisible: boolean = false;
   editMode: boolean = false;
   selectedRequestId: string | null = null;
-  submissionTypes: string[] = ['Type A', 'Type B', 'Type C']; // Example data
-  coordinators: ManagerModel[]=[]
-  approvers: ManagerModel[]=[] ;
+ 
+  coordinators: ManagerModel[] = []
+  approvers: ManagerModel[] = [];
   milestones: MileStoneModel[] = [];
-  years:Years[]=[];
+  years: Years[] = [];
   showForm: boolean = false;
-  orgUnits:OrganizationalUnitModel[]=[];
-  // yearDataSource = new CustomStore({
-  //   key: 'year',
-   
-  //   load: () => {
-  //     return this.yearService.getYears();
-  //   }
-  // });
-
-  // mileStoneDataSource = new CustomStore({
-  //   key: 'id',
-  //   load: () => {
-  //     return this.mileStoneService.getMileStoneList();
-  //   }
-  // });
-
+  orgUnits: OrganizationalUnitModel[] = [];
+  requestStatuses: RequestStatusModel[] = [];
+  submissionTypes: SubmissionTypeModel[] = [];
   constructor(
     private fb: FormBuilder,
     private inforService: InforrequestService,
     private yearService: YearService,
-    private mileStoneService: MileStoneService ,
-    private approverSerive:ManagerService
+    private mileStoneService: MileStoneService,
+    private approverSerive: ManagerService ,
+    private lookupDataService: LookupDataService
   ) {
     this.initializeDataSource();
-    approverSerive.getManagerList().subscribe( 
-      managers =>{
-        this.approvers = managers;    
-      
+    approverSerive.getManagerList().subscribe(
+      managers => {
+        this.approvers = managers;
+
       });
 
-      approverSerive.getContributors().subscribe( 
-        coordinators =>{         
-          this.coordinators =coordinators;
-        });
+    approverSerive.getContributors().subscribe(
+      coordinators => {
+        this.coordinators = coordinators;
+      });
 
-        approverSerive.getOrgUnits().subscribe( 
-          units =>{         
-            this.orgUnits =units;
-          });
+    approverSerive.getOrgUnits().subscribe(
+      units => {
+        this.orgUnits = units;
+      });
 
 
-      this.mileStoneService.getMileStoneList()
-      .subscribe(mileStones =>  {
-        this.milestones = mileStones.data; })
-    this.requestForm = this.fb.group({
-      id: [null],
-      requestNumber: ['', Validators.required],
-      sirYear: ['', Validators.required],
-      mileStoneDate: ['', Validators.required],
-      submissionType: ['', Validators.required],
-      organizationalUnitName: ['', Validators.required],
-      coordinatorName: ['', Validators.required],
-      worksheetType: [''],
-      approverName: [''],
-      worksheetDetails: [''],
-      inputWorksheetLink: [''],
-      informationSought: [''],
-      spqComment: [''],
-      requestStatus: ['', Validators.required]
-    });
+    this.mileStoneService.getMileStoneList()
+      .subscribe(mileStones => {
+        this.milestones = mileStones.data;
+      })
+
+      this.lookupDataService.getRequestStatus().subscribe(
+        status => {  this.requestStatuses = status; });
+
+      this.lookupDataService.getSubmissionType().subscribe(
+        type => { this.submissionTypes = type; });
+
+  
   }
 
   initializeDataSource() {
@@ -101,7 +82,7 @@ export class InformationrequestComponent {
       key: 'id',
       load: (loadOptions) => {
         const page = 1// (loadOptions.skip / loadOptions.take) + 1 || 1;
-        const pageSize =  10;
+        const pageSize = 10;
         return this.inforService.getList(page, pageSize).toPromise();
       },
       insert: (values) => {
@@ -161,6 +142,8 @@ export class InformationrequestComponent {
   }
 
   onCancel() {
+    this.isPopupVisible = false;
+    
     this.showForm = false;
   }
 }

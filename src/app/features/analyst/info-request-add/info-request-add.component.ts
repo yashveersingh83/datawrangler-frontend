@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChange
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InformationRequestModel } from '../../../shared/info-request-model';
 import { ManagerModel, Years } from '../../../shared/manager-model';
-import { MileStoneModel } from '../../../shared/milestone-model';
+import { MileStoneModel, RequestStatusModel, SubmissionTypeModel } from '../../../shared/milestone-model';
 import { InforrequestService } from '../services/inforrequest.service';
 import { YearService } from '../../../shared/services/year-service';
 import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
@@ -15,12 +15,13 @@ import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-mode
 })
 export class InfoRequestAddComponent implements OnInit, OnChanges {
   // Input properties
-  @Input() requestData: InformationRequestModel | null = null;
-  @Input() submissionTypes: string[] = [];
+  @Input() requestData: InformationRequestModel | null = null;  
   @Input() coordinators: ManagerModel[] = [];
   @Input() approvers: ManagerModel[] = [];
   @Input() milestones: MileStoneModel[] = [];
   @Input() orgUnits: OrganizationalUnitModel[] = [];
+  @Input() requestStatuses: RequestStatusModel[] = [];
+  @Input() submissionTypes: SubmissionTypeModel[] = [];
   
   // Output events
   @Output() save = new EventEmitter<InformationRequestModel>();
@@ -69,13 +70,16 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       informationSought: [''],
       spqComment: [''],
       worksheetAvailabilityDate: [''],
-      requestStatus: ['', Validators.required],
+      requestStatusID: ['', Validators.required],
       selectedApproverId: ['', Validators.required],
       inputWorksheetLink: [''],
       ddsuCode: [''],
       latestSubmittedWorksheetLink: [''],
       selectedCoordinatorId: ['', Validators.required],
       selectedMilestoneId: ['', Validators.required],
+      organizationalUnitID: ['', Validators.required],
+      submissionTypeID: ['', Validators.required],
+      
     });
   }
 
@@ -109,6 +113,36 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
         }, { emitEvent: false });
       }
     });
+
+      // Request Status selection listener
+  this.requestForm.get('requestStatusID')?.valueChanges.subscribe((statusId) => {
+    const selectedStatus = this.requestStatuses.find(s => s.id === statusId);
+    if (selectedStatus) {
+      this.requestForm.patchValue({
+        requestStatus: selectedStatus.status,
+      }, { emitEvent: false });
+    }
+  });
+
+  // Organizational Unit selection listener
+  this.requestForm.get('organizationalUnitID')?.valueChanges.subscribe((orgUnitId) => {
+    const selectedOrgUnit = this.orgUnits.find(o => o.id === orgUnitId);
+    if (selectedOrgUnit) {
+      this.requestForm.patchValue({
+        organizationalUnitName: selectedOrgUnit.division,
+      }, { emitEvent: false });
+    }
+  });
+
+  // Submission Type selection listener
+  this.requestForm.get('submissionTypeID')?.valueChanges.subscribe((submissionTypeID) => {
+    const selectedSubmissionType = this.submissionTypes.find(s => s.id === submissionTypeID);
+    if (selectedSubmissionType) {
+      this.requestForm.patchValue({
+        submissionType: selectedSubmissionType.type,
+      }, { emitEvent: false });
+    }
+  });
   }
 
   private updateForm(): void {
@@ -118,6 +152,8 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
     const selectedCoordinator = this.coordinators.find(c => c.id === this.requestData?.recipientID);
     const selectedMilestone = this.milestones.find(m => m.id === this.requestData?.milestoneID);
     const selectedOrgUnit = this.orgUnits.find(o => o.id === this.requestData?.organizationalUnitID);
+    const selectedRequest = this.requestStatuses.find(o => o.id === this.requestData?.requestStatusID);
+    const selectedSubmissionType = this.submissionTypes.find(o => o.id === this.requestData?.submissionTypeID);
 
     this.requestForm.patchValue({
       ...this.requestData,
@@ -128,7 +164,10 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       approverName: selectedApprover?.fullName || this.requestData.approverName || null,
       coordinatorName: selectedCoordinator?.fullName || this.requestData.coordinatorName || null,
       organizationalUnitName: selectedOrgUnit?.division || this.requestData.organizationalUnitName || null,
-      requestStatus: this.requestData?.requestStatus || null,
+      requestStatusID: selectedRequest?.id || null,
+      submissionType: selectedSubmissionType?.type || null,
+      submissionTypeID: selectedSubmissionType?.id || null,
+      
     }, { emitEvent: false });
   }
 
@@ -142,10 +181,12 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       next: () => {
         this.save.emit(model);
         this.isSubmitting = false;
+        this.onCancel(); 
       },
       error: (err) => {
         console.error('Error saving request:', err);
         this.isSubmitting = false;
+        
       }
     });
   }
@@ -181,6 +222,7 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       ddsuCode: formValue.ddsuCode,
       requestStatusID: formValue.requestStatusID,
       organizationalUnitID: formValue.organizationalUnitID,
+      submissionTypeID: formValue.submissionTypeID,
     };
   }
 

@@ -38,11 +38,11 @@
 
     <div class="col-md-6 mb-3">
       <label class="form-label">Submission Type</label>
-      <select formControlName="submissionType" class="form-control" [class.is-invalid]="requestForm.get('submissionType')?.invalid && requestForm.get('submissionType')?.touched">
+      <select formControlName="submissionTypeID" class="form-control" [class.is-invalid]="requestForm.get('submissionTypeID')?.invalid && requestForm.get('submissionTypeID')?.touched">
         <option value="">Select Type</option>
-        <option *ngFor="let type of submissionTypes" [value]="type">{{ type }}</option>
+        <option *ngFor="let type of submissionTypes" [value]="type.id">{{ type.type }}</option>
       </select>
-      <div *ngIf="requestForm.get('submissionType')?.invalid && requestForm.get('submissionType')?.touched" class="invalid-feedback">
+      <div *ngIf="requestForm.get('submissionTypeID')?.invalid && requestForm.get('submissionTypeID')?.touched" class="invalid-feedback">
         Submission type is required
       </div>
     </div>
@@ -51,13 +51,13 @@
   <div class="row">
     <div class="col-md-6 mb-3">
       <label class="form-label">Unit</label>
-      <select formControlName="organizationalUnitName" class="form-control" [class.is-invalid]="requestForm.get('organizationalUnitName')?.invalid && requestForm.get('organizationalUnitName')?.touched">
+      <select formControlName="organizationalUnitID" class="form-control" [class.is-invalid]="requestForm.get('organizationalUnitID')?.invalid && requestForm.get('organizationalUnitID')?.touched">
         <option value="">Select Unit</option>
-        <option *ngFor="let unit of orgUnits" [value]="unit.description">
-          {{ unit.description }} ({{ unit.sectionCode }})
+        <option *ngFor="let unit of orgUnits" [value]="unit.id">
+          {{ unit.division }} ({{ unit.sectionCode }})
         </option>
       </select>
-      <div *ngIf="requestForm.get('organizationalUnitName')?.invalid && requestForm.get('organizationalUnitName')?.touched" class="invalid-feedback">
+      <div *ngIf="requestForm.get('organizationalUnitID')?.invalid && requestForm.get('organizationalUnitID')?.touched" class="invalid-feedback">
         Unit is required
       </div>
     </div>
@@ -95,8 +95,20 @@
       </div>
     </div>
   </div>
+  <div class="col-md-6 mb-3">
+    <label class="form-label">Request Status</label>
+    <select formControlName="requestStatusID" class="form-control" [class.is-invalid]="requestForm.get('selectedCoordinatorId')?.invalid && requestForm.get('selectedCoordinatorId')?.touched">
+      <option value="">Select Request Status</option>
+      <option *ngFor="let requestStatus of requestStatuses" [value]="requestStatus.id">
+        {{ requestStatus.status }}
+      </option>
+    </select>
+    <div *ngIf="requestForm.get('selectedCrequestStatus')?.invalid && requestForm.get('selectedCrequestStatus')?.touched" class="invalid-feedback">
+      Request Status is required
+    </div>
+  </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12 mb-3">
       <label class="form-label">Request Status</label>
       <input formControlName="requestStatus" class="form-control" [class.is-invalid]="requestForm.get('requestStatus')?.invalid && requestForm.get('requestStatus')?.touched" />
@@ -104,7 +116,7 @@
         Status is required
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Additional fields -->
   <div class="row">

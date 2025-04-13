@@ -6,3 +6,15 @@ export interface MileStoneModel {
   description: string;
   id:string
 }
+
+
+
+export interface RequestStatusModel {
+  status: string;
+  id:string
+}
+
+export interface SubmissionTypeModel {
+  type: string;
+  id:string
+}

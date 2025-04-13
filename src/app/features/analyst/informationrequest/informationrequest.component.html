@@ -37,7 +37,7 @@
 <!-- DX Popup for Form -->
 <dx-popup
   [(visible)]="isPopupVisible"
-  [width]="600"
+  [width]="800"
   [height]="600"
   [showCloseButton]="true"
   [dragEnabled]="true"
@@ -51,6 +51,8 @@
       [approvers]="approvers"
       [milestones]="milestones"
       [orgUnits]="orgUnits"
+      [requestStatuses]="requestStatuses"
+      [submissionTypes]="submissionTypes"
       (save)="onSave($event)"
       (cancel)="onCancel()"
     ></app-info-request-add>
