@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . . 
 
-RUN ls -la /app/dist
+#RUN ls -la /app/dist
 
 RUN npm run build --prod
 
