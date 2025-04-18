@@ -107,35 +107,38 @@ export class InformationrequestComponent {
   }
 
   openPopup(id?: any) {
+    this.selectedRequest = this.createEmptyRequest();
     if (id) {
       this.inforService.getById(id).subscribe(request => {
         this.selectedRequest = request;
         this.isPopupVisible = true;
       });
     } else {
-      this.selectedRequest = null;
+      this.selectedRequest = this.createEmptyRequest();
       this.isPopupVisible = true;
     }
   }
 
-  deleteRequest(id: number) {
+  deleteRequest(key: any) {
     if (confirm('Are you sure you want to delete this request?')) {
-      // this.inforService.deleteRequest(id).subscribe(() => {
-      //   alert('Request deleted successfully');
-      //   this.initializeDataSource();
-      // });
+      this.inforService.deleteRequest(key).subscribe(() => {
+        alert('Request deleted successfully');
+        this.initializeDataSource();
+      });
     }
   }
 
   onSave(requestData: InformationRequestModel) {
-    if (requestData.id) {
+    if (requestData.id !='0') {
       this.inforService.updateRequestRequest(requestData).subscribe(() => {
         this.showForm = false;
+        this.isPopupVisible = false;
         this.initializeDataSource(); // Refresh the data grid
       });
     } else {
       this.inforService.addRequest(requestData).subscribe(() => {
         this.showForm = false;
+        this.isPopupVisible = false;
         this.initializeDataSource(); // Refresh the data grid
       });
     }
@@ -143,7 +146,39 @@ export class InformationrequestComponent {
 
   onCancel() {
     this.isPopupVisible = false;
-    
+    this.selectedRequest = null;
     this.showForm = false;
+  }
+  private createEmptyRequest(): InformationRequestModel {
+    return {
+      id: '',
+      requestNumber: '',
+      sirYear: 0,
+      mileStoneDate: "",
+      submissionType: '',
+      organizationalUnitName: '',
+      coordinatorName: '',
+      worksheetType: '',
+      approverName: '',
+      requestStatus: '',
+      approverID: '',
+      recipientID: '',
+      milestoneID: '',
+      approver: '',
+      informationRequest: '',
+      requestStatusType: 0,
+      informationSought: '',
+      spqComment: '',
+      worksheetAvailabilityDate: null,
+      worksheetDetails: '',
+      worksheetTabs: '',
+      existingSubmissionType: '',
+      inputWorksheetLink: '',
+      latestSubmittedWorksheetLink: '',
+      ddsuCode: '',
+      requestStatusID: '',
+      organizationalUnitID: '',
+      submissionTypeID: '',
+    };
   }
 }

@@ -36,6 +36,15 @@ export class ManagerService extends BaseService<ManagerModel> {
         );
       }
 
+      getManagers(): Observable<{ data: ManagerModel[], totalCount: number }> {
+        return this.get().pipe(
+          map(response => ({
+            data: response, // The actual milestone records
+            totalCount: 10//response.values.c // The total number of records
+          }))
+        );
+      }
+
       getContributors(): Observable<ManagerModel[]> {
         return this.getManagerList().pipe(
           map((managers: ManagerModel[]) => 

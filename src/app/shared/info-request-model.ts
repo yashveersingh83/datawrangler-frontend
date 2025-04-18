@@ -9,7 +9,7 @@ export interface InformationRequestModel {
     existingSubmissionType: string | null;
     informationSought: string;
     spqComment: string;
-    worksheetAvailabilityDate: string; // This is a string as it seems like a date format in JSON
+    worksheetAvailabilityDate: string|null; // This is a string as it seems like a date format in JSON
     worksheetType: string | null;    
     mileStoneDate: string; // This is a string as it seems like a date format in JSON
     

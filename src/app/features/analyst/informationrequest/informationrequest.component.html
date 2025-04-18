@@ -27,7 +27,7 @@
       <button class="btn btn-sm btn-primary me-2" (click)="openPopup(data.data.id)">
         <i class="bi bi-pencil-fill"></i> Edit
       </button>
-      <button class="btn btn-sm btn-danger" (click)="deleteRequest(data.data.id)">
+      <button class="btn btn-sm btn-danger" (click)="deleteRequest(data.data)">
         <i class="bi bi-trash-fill"></i> Delete
       </button>
     </div>
@@ -46,6 +46,7 @@
   <div *dxTemplate="let data of 'content'">
     <app-info-request-add
       [requestData]="selectedRequest"
+      [key]="selectedRequest?.id ||'new'"
       [submissionTypes]="submissionTypes"
       [coordinators]="coordinators"
       [approvers]="approvers"

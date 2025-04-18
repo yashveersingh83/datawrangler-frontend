@@ -16,6 +16,7 @@ import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-mode
 export class InfoRequestAddComponent implements OnInit, OnChanges {
   // Input properties
   @Input() requestData: InformationRequestModel | null = null;  
+  @Input() key: string = '';
   @Input() coordinators: ManagerModel[] = [];
   @Input() approvers: ManagerModel[] = [];
   @Input() milestones: MileStoneModel[] = [];
@@ -43,7 +44,7 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.years = this.yearService.getYears();
     this.setupFormListeners();
-    if (this.requestData) {
+    if (this.requestData && this.key!='new') {
       this.updateForm();
     }
   }
@@ -172,27 +173,25 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
-    if (this.requestForm.invalid || this.isSubmitting) return;
-
-    this.isSubmitting = true;
+    if (this.requestForm.invalid || this.isSubmitting) return; // Prevent multiple submissions
+  
+    this.isSubmitting = true; // Set the flag to true
     const model = this.convertFormToModel();
+  
+    console.log('Form submitted:', model);
+    if (this.key === 'new') {
+      model.id = '0'; // Set ID to 0 for new requests
+      
+    }
+    
+    this.save.emit(model); // Emit the save event with the model
+    this.isSubmitting = false; // Reset the flag after submission
 
-    this.inforService.updateRequestRequest(model).subscribe({
-      next: () => {
-        this.save.emit(model);
-        this.isSubmitting = false;
-        this.onCancel(); 
-      },
-      error: (err) => {
-        console.error('Error saving request:', err);
-        this.isSubmitting = false;
-        
-      }
-    });
   }
 
   private convertFormToModel(): InformationRequestModel {
     const formValue = this.requestForm.value;
+    const Oname= this.orgUnits.find(s => s.id === formValue.organizationalUnitID)?.division || '';
 
     return {
       id: formValue.id,
@@ -200,11 +199,11 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       sirYear: formValue.sirYear,
       mileStoneDate: formValue.mileStoneDate,
       submissionType: formValue.submissionType,
-      organizationalUnitName: formValue.organizationalUnitName,
-      coordinatorName: formValue.coordinatorName,
+      organizationalUnitName: this.orgUnits.find(s => s.id === formValue.organizationalUnitID)?.division || '',
+      coordinatorName: this.approvers.find(s => s.id === formValue.selectedCoordinatorId)?.fullName || '',
       worksheetType: formValue.worksheetType,
-      approverName: formValue.approverName,
-      requestStatus: formValue.requestStatus,
+      approverName: this.approvers.find(s => s.id === formValue.selectedApproverId)?.fullName || '',
+      requestStatus: this.requestStatuses.find(s => s.id === formValue.requestStatusID)?.status || '',
       approverID: formValue.selectedApproverId,
       recipientID: formValue.selectedCoordinatorId,
       milestoneID: formValue.selectedMilestoneId,
@@ -213,7 +212,7 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       requestStatusType: formValue.requestStatus,
       informationSought: formValue.informationSought,
       spqComment: formValue.spqComment,
-      worksheetAvailabilityDate: formValue.worksheetAvailabilityDate,
+      worksheetAvailabilityDate: null,
       worksheetDetails: formValue.worksheetDetails,
       worksheetTabs: formValue.worksheetTabs,
       existingSubmissionType: formValue.submissionType,
