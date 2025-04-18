@@ -5,11 +5,11 @@ COPY package*.json ./
 RUN npm install
 COPY . . 
 
-RUN ls -la /app/dist
+#RUN ls -la /app/dist
 
 RUN npm run build --prod
 
-RUN ls -la /app/dist
+#RUN ls -la /app/dist
 
 # Stage 2: Serve with NGINX
 FROM nginx:alpine
