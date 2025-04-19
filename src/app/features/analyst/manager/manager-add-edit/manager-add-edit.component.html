@@ -1,0 +1,91 @@
+<form [formGroup]="managerForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow bg-white">
+  <div class="row">
+    <!-- DDSU Code -->
+    <div class="col-md-6 mb-3">
+      <label for="ddsuCode" class="form-label">DDSU Code</label>
+      <input id="ddsuCode" formControlName="ddsuCode" class="form-control" />
+      <div *ngIf="managerForm.get('ddsuCode')?.invalid && managerForm.get('ddsuCode')?.touched" class="text-danger">
+        DDSU Code is required.
+      </div>
+    </div>
+
+    <!-- Division -->
+    <div class="col-md-6 mb-3">
+      <label for="division" class="form-label">Division</label>
+      <input id="division" formControlName="division" class="form-control" />
+      <div *ngIf="managerForm.get('division')?.invalid && managerForm.get('division')?.touched" class="text-danger">
+        Division is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Division Code -->
+    <div class="col-md-6 mb-3">
+      <label for="divisionCode" class="form-label">Division Code</label>
+      <input id="divisionCode" formControlName="divisionCode" class="form-control" />
+      <div *ngIf="managerForm.get('divisionCode')?.invalid && managerForm.get('divisionCode')?.touched" class="text-danger">
+        Division Code is required.
+      </div>
+    </div>
+
+    <!-- Section Code -->
+    <div class="col-md-6 mb-3">
+      <label for="sectionCode" class="form-label">Section Code</label>
+      <input id="sectionCode" formControlName="sectionCode" class="form-control" />
+      <div *ngIf="managerForm.get('sectionCode')?.invalid && managerForm.get('sectionCode')?.touched" class="text-danger">
+        Section Code is required.
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Personnel Number -->
+    <div class="col-md-6 mb-3">
+      <label for="personnelNumber" class="form-label">Personnel Number</label>
+      <input id="personnelNumber" formControlName="personnelNumber" class="form-control" />
+      <div *ngIf="managerForm.get('personnelNumber')?.invalid && managerForm.get('personnelNumber')?.touched" class="text-danger">
+        Personnel Number is required.
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Full Name -->
+    <div class="col-md-6 mb-3">
+      <label for="fullName" class="form-label">Full Name</label>
+      <input id="fullName" formControlName="fullName" class="form-control" />
+      <div *ngIf="managerForm.get('fullName')?.invalid && managerForm.get('fullName')?.touched" class="text-danger">
+        Full Name is required.
+      </div>
+    </div>
+
+    <!-- Functional Title -->
+    <div class="col-md-6 mb-3">
+      <label for="functionalTitle" class="form-label">Functional Title</label>
+      <input id="functionalTitle" formControlName="functionalTitle" class="form-control" />
+      <div *ngIf="managerForm.get('functionalTitle')?.invalid && managerForm.get('functionalTitle')?.touched" class="text-danger">
+        Functional Title is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Approver Role -->
+    <div class="col-md-6 mb-3">
+      <label for="approverRole" class="form-label">Approver Role</label>
+      <input id="approverRole" type="checkbox" formControlName="approverRole" />
+    </div>
+
+    <!-- Contributor Role -->
+    <div class="col-md-6 mb-3">
+      <label for="contributorRole" class="form-label">Contributor Role</label>
+      <input id="contributorRole" type="checkbox" formControlName="contributorRole" />
+    </div>
+  </div>
+
+
+
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary" [disabled]="managerForm.invalid">Save</button>
+  </div>
+</form>

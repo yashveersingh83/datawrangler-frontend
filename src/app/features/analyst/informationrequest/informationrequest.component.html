@@ -4,14 +4,16 @@
 <!-- DX Data Grid -->
 <dx-data-grid
   [dataSource]="informationRequestDataSource"
-  [remoteOperations]="true"
+  [remoteOperations]="false"
   [width]="'100%'"
-  [height]="600"
+  [height]="700"
   [showBorders]="true"
   [columnAutoWidth]="true"
+
 >
   <dxo-editing [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
-
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxi-column dataField="requestNumber" caption="Request Number"></dxi-column>
   <dxi-column dataField="sirYear" caption="Year"></dxi-column>
   <dxi-column dataField="mileStoneDate" caption="Deadline" dataType="date"></dxi-column>
@@ -21,10 +23,10 @@
   <dxi-column dataField="worksheetType" caption="Worksheet Type"></dxi-column>
   <dxi-column dataField="approverName" caption="Approver"></dxi-column>
   <dxi-column dataField="requestStatus" caption="Status"></dxi-column>
-  <dxi-column dataField="id" cellTemplate="limitTemplate">Details</dxi-column>
-  <div *dxTemplate="let data of 'limitTemplate'">
+  <dxi-column dataField="id" cellTemplate="editTemplate">Details</dxi-column>
+  <div *dxTemplate="let data of 'editTemplate'">
     <div>
-      <button class="btn btn-sm btn-primary me-2" (click)="openPopup(data.data.id)">
+      <button class="btn btn-sm btn-primary me-2" (click)="openPopup(data.data)">
         <i class="bi bi-pencil-fill"></i> Edit
       </button>
       <button class="btn btn-sm btn-danger" (click)="deleteRequest(data.data)">

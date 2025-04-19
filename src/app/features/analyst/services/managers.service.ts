@@ -64,5 +64,9 @@ export class ManagerService extends BaseService<ManagerModel> {
       getOrgUnits(): Observable<OrganizationalUnitModel[]> {
         return this.getByCustomPath<OrganizationalUnitModel[]>('GetOrgUnits');
       }
-      
+      deleteManager(item: ManagerModel): Observable<any> {
+            return this.delete(item).pipe(
+              // Handle response, if necessary
+            );
+          }
 }

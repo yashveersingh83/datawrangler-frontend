@@ -10,13 +10,15 @@ import { sharedModule } from '../../shared/common-module';
 import { MilestoneModalComponent } from './milestone-modal/milestone-modal.component';
 import { InformationrequestComponent } from './informationrequest/informationrequest.component';
 import { InfoRequestAddComponent } from './info-request-add/info-request-add.component';
+import { ManagerAddEditComponent } from './manager/manager-add-edit/manager-add-edit.component';
 
 
 
 @NgModule({
   declarations: [ManagerComponent,MilestonelistComponent, 
     InformationrequestComponent,InfoRequestAddComponent,
-    MilestoneModalComponent],
+    MilestoneModalComponent,
+    ManagerAddEditComponent],
   imports: [DevExtremeModule,DxButtonModule,
     CommonModule,
     AnalystRoutingModule,sharedModule
