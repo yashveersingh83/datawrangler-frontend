@@ -1,6 +1,13 @@
 export interface NavigationContext {
     userRoles: string[];
     userProfile: any;
-    featureFlags?: { [key: string]: boolean; };
-    //appMode?: 'admin' | 'user' | 'readonly'|null;
+    featureFlags?: { [key: string]: boolean };
 }
+
+export const createEmptyNavigationContext = (): NavigationContext => {
+    return {
+        userRoles: [],
+        userProfile: {},
+        featureFlags: {}
+    };
+};

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h2>Information Requests</h2>
-  <button (click)="openPopup(null)" class="btn btn-primary mb-3">Add New Request</button>
+  <button (click)="openPopup(null)"   *ngIf="canAdd()"  class="btn btn-primary mb-3">Add New Request</button>
 
   <!-- DX Data Grid -->
   <dx-data-grid
@@ -26,10 +26,10 @@
     <dxi-column dataField="id" cellTemplate="editTemplate">Details</dxi-column>
     <div *dxTemplate="let data of 'editTemplate'">
       <div>
-        <button class="btn btn-sm btn-primary me-2" (click)="openPopup(data.data)">
+        <button class="btn btn-sm btn-primary me-2"  (click)="openPopup(data.data)">
           <i class="bi bi-pencil-fill"></i> Edit
         </button>
-        <button class="btn btn-sm btn-danger" (click)="deleteRequest(data.data)">
+        <button class="btn btn-sm btn-danger"  *ngIf="canDelete()"  (click)="deleteRequest(data.data)">
           <i class="bi bi-trash-fill"></i> Delete
         </button>
       </div>

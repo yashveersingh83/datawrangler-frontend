@@ -64,7 +64,10 @@
 
     <div class="col-md-6 mb-3">
       <label class="form-label">Coordinator</label>
-      <select formControlName="selectedCoordinatorId" class="form-control" [class.is-invalid]="requestForm.get('selectedCoordinatorId')?.invalid && requestForm.get('selectedCoordinatorId')?.touched">
+      <select formControlName="selectedCoordinatorId" class="form-control" 
+      [class.is-invalid]="requestForm.get('selectedCoordinatorId')?.invalid && requestForm.get('selectedCoordinatorId')?.touched"
+      
+      >
         <option value="">Select Coordinator</option>
         <option *ngFor="let coordinator of coordinators" [value]="coordinator.id">
           {{ coordinator.fullName }}
@@ -79,7 +82,7 @@
   <div class="row">
     <div class="col-md-6 mb-3">
       <label class="form-label">Worksheet Type</label>
-      <input formControlName="worksheetType" class="form-control" />
+      <input formControlName="worksheetType"  class="form-control" />
     </div>
 
     <div class="col-md-6 mb-3">
@@ -122,7 +125,11 @@
   <div class="row">
     <div class="col-md-12 mb-3">
       <label class="form-label">Information Sought</label>
-      <textarea formControlName="informationSought" class="form-control" rows="3"></textarea>
+      <textarea formControlName="informationSought" class="form-control" rows="3"
+    
+      
+      
+      ></textarea>
     </div>
   </div>
 

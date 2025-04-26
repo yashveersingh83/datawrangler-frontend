@@ -6,6 +6,10 @@ import { MileStoneModel, RequestStatusModel, SubmissionTypeModel } from '../../.
 import { InforrequestService } from '../services/inforrequest.service';
 import { YearService } from '../../../shared/services/year-service';
 import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
+import { createEmptyNavigationContext, NavigationContext } from '../../../navbar/NavigationContext';
+import { FeaturePermissions } from '../../feature-permission.config';
+import { FeaturePermissionService } from '../../feature-permission.service';
+import { KeycloakAuthService } from '../../authentication/services/keycloak-auth.service';
 
 @Component({
   selector: 'app-info-request-add',
@@ -32,16 +36,25 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
   years: Years[] = [];
   requestForm: FormGroup;
   isSubmitting = false;
-
+  permissions: any;
+  navigationContext: NavigationContext =createEmptyNavigationContext();
   constructor(
     private fb: FormBuilder,
     private inforService: InforrequestService,
-    private yearService: YearService
+    private yearService: YearService ,
+    private featurePermissionService: FeaturePermissionService,
+    private keycloakAuthService: KeycloakAuthService
   ) {
+    
     this.requestForm = this.createForm();
   }
 
   ngOnInit(): void {
+    const roles =  this.keycloakAuthService.getUserRoles();
+    const profile = this.keycloakAuthService.getUserProfile();
+
+    this.navigationContext = { userRoles: roles, userProfile: profile };
+    this.permissions = this.featurePermissionService.getInformationRequestPermissions(this.navigationContext);
     this.years = this.yearService.getYears();
     this.setupFormListeners();
     if (this.requestData && this.key!='new') {
@@ -51,6 +64,11 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['requestData'] && changes['requestData'].currentValue) {
+      const roles =  this.keycloakAuthService.getUserRoles();
+      const profile = this.keycloakAuthService.getUserProfile();
+  
+      this.navigationContext = { userRoles: roles, userProfile: profile };
+      this.permissions = this.featurePermissionService.getInformationRequestPermissions(this.navigationContext);
       this.updateForm();
     }
   }
@@ -170,6 +188,7 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
       submissionTypeID: selectedSubmissionType?.id || null,
       
     }, { emitEvent: false });
+    this.applyPermissions();
   }
 
   onSubmit(): void {
@@ -229,4 +248,14 @@ export class InfoRequestAddComponent implements OnInit, OnChanges {
     this.cancel.emit();
     
   }
+  applyPermissions() {
+    this.featurePermissionService.applyFieldPermissions(
+      this.requestForm,
+      this.permissions.editableFields,
+      this.navigationContext
+    );
+  }
+
+
+  
 }

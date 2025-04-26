@@ -11,6 +11,9 @@ import { ManagerModel, Years } from '../../../shared/manager-model';
 import { MileStoneModel, RequestStatusModel, SubmissionTypeModel } from '../../../shared/milestone-model';
 import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
 import { LookupDataService } from '../../../shared/services/lookup-data-service';
+import { FeaturePermissionService } from '../../feature-permission.service';
+import { KeycloakAuthService } from '../../../core/authentication/services/keycloak-auth.service';
+import { createEmptyNavigationContext, NavigationContext } from '../../../navbar/NavigationContext';
 
 @Component({
   selector: 'app-informationrequest',
@@ -33,13 +36,17 @@ export class InformationrequestComponent {
   orgUnits: OrganizationalUnitModel[] = [];
   requestStatuses: RequestStatusModel[] = [];
   submissionTypes: SubmissionTypeModel[] = [];
+  navigationContext: NavigationContext =createEmptyNavigationContext();
+  permissions: any ;
   constructor(
     private fb: FormBuilder,
     private inforService: InforrequestService,
     private yearService: YearService,
     private mileStoneService: MileStoneService,
     private approverSerive: ManagerService ,
-    private lookupDataService: LookupDataService
+    private lookupDataService: LookupDataService,
+      private featurePermissionService: FeaturePermissionService,
+          private keycloakAuthService: KeycloakAuthService
   ) {
     this.initializeDataSource();
     approverSerive.getManagerList().subscribe(
@@ -70,7 +77,11 @@ export class InformationrequestComponent {
       this.lookupDataService.getSubmissionType().subscribe(
         type => { this.submissionTypes = type; });
 
-  
+        const roles =  this.keycloakAuthService.getUserRoles();
+        const profile = this.keycloakAuthService.getUserProfile();
+    
+        this.navigationContext = { userRoles: roles, userProfile: profile };
+        this.permissions = this.featurePermissionService.getInformationRequestPermissions(this.navigationContext);
   }
 
   initializeDataSource() {
@@ -174,5 +185,15 @@ export class InformationrequestComponent {
       organizationalUnitID: '',
       submissionTypeID: '',
     };
+  }
+
+  canDelete(): boolean {
+    return this.permissions.canDelete(this.navigationContext);
+  }
+  canAdd(): boolean {
+    return this.permissions.canAdd(this.navigationContext);
+  } 
+  canEdit(): boolean {
+    return this.permissions.canEdit(this.navigationContext);
   }
 }
