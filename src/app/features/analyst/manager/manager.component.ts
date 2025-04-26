@@ -77,7 +77,7 @@ export class ManagerComponent implements OnInit {
 
   }
   openPopup(manager: ManagerModel | null): void {
-    this.selectedManager = manager ? { ...manager } : null; // Pass a copy of the manager or null for new
+    this.selectedManager = manager ? { ...manager } : this.createEmptyManager(); // Re; // Pass a copy of the manager or null for new
     this.isPopupVisible = true;
   }
   // openPopup(e: any) {
@@ -118,5 +118,26 @@ export class ManagerComponent implements OnInit {
   }
   onCancel() {
     this.isPopupVisible = false;
+  }
+  private createEmptyManager(): ManagerModel {
+    return {
+      id: '',
+      ddsuCode: '',
+      division: '',
+      sectionCode: '',
+      fullName: '',
+      functionalTitle: '',
+      personnelNumber: '',
+      contributorRole: false,
+      approverRole: false,
+      divisionCode: '',
+      coordinatorRoles: '',
+     
+      managerComment: '',
+      showWarningIcon: false,
+      warningTitle: '',
+      approverRoleForExcel: '',
+      
+    };
   }
 }

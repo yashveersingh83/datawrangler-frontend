@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h2>Information Requests</h2>
-  <button (click)="openPopup()" class="btn btn-primary mb-3">Add New Request</button>
+  <button (click)="openPopup(null)" class="btn btn-primary mb-3">Add New Request</button>
 
   <!-- DX Data Grid -->
   <dx-data-grid
@@ -34,5 +34,31 @@
         </button>
       </div>
     </div>
+  
   </dx-data-grid>
+  <dx-popup
+  [(visible)]="isPopupVisible"
+  [width]="800"
+  [height]="600"
+  [showCloseButton]="true"
+  [dragEnabled]="true"
+  title="Information Request Form"
+>
+  <div *dxTemplate="let data of 'content'">
+    <app-info-request-add
+      [requestData]="selectedRequest"
+      [key]="selectedRequest?.id ||'new'"
+      
+      [submissionTypes]="submissionTypes"
+      [coordinators]="coordinators"
+      [approvers]="approvers"
+      [milestones]="milestones"
+      [orgUnits]="orgUnits"
+      [requestStatuses]="requestStatuses"
+      [submissionTypes]="submissionTypes"
+      (save)="onSave($event)"
+      (cancel)="onCancel()"
+    ></app-info-request-add>
+  </div>
+</dx-popup>
 </div>

@@ -11,7 +11,7 @@ export class KeycloakAuthService {
 
   /** 🔹 Check if user is authenticated */
   async isAuthenticated(): Promise<boolean> {
-    
+    console.log('isAuthenticated', this.keycloak.authenticated);
     return false;
     //return this.keycloak.isTokenExpired();
   }

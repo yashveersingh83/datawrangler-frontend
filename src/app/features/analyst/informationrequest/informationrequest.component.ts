@@ -106,18 +106,13 @@ export class InformationrequestComponent {
     });
   }
 
-  openPopup(id?: any) {
-    this.selectedRequest = this.createEmptyRequest();
-    if (id) {
-      this.inforService.getById(id).subscribe(request => {
-        this.selectedRequest = request;
-        this.isPopupVisible = true;
-      });
-    } else {
-      this.selectedRequest = this.createEmptyRequest();
-      this.isPopupVisible = true;
-    }
+  openPopup(request: InformationRequestModel | null): void {
+    console.log('Opening popup with request:', request);
+    this.selectedRequest = request ? { ...request } : this.createEmptyRequest(); // Reset to empty request if null
+    this.isPopupVisible = true;
+    console.log('Popup visibility set to:', this.isPopupVisible);
   }
+
 
   deleteRequest(key: any) {
     if (confirm('Are you sure you want to delete this request?')) {
@@ -144,10 +139,9 @@ export class InformationrequestComponent {
     }
   }
 
-  onCancel() {
+  onCancel(): void {
+    console.log('Closing popup');
     this.isPopupVisible = false;
-    this.selectedRequest = null;
-    this.showForm = false;
   }
   private createEmptyRequest(): InformationRequestModel {
     return {
