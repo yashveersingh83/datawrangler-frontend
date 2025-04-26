@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { canActivateAuthRole } from '../authentication/gaurds/auth.gaurd';
+
 
 import { ManagerComponent } from './manager/manager.component';
 import { MilestonelistComponent } from './milestonelist/milestonelist.component';
 import { InformationrequestComponent } from './informationrequest/informationrequest.component';
+import { canActivateAuthRole } from '../../core/authentication/gaurds/auth.gaurd';
+import { UnauthorizeComponent } from '../unauthorize/unauthorize.component';
 
 const routes: Routes = [
 
@@ -15,14 +17,14 @@ const routes: Routes = [
 
   {
     path: 'manager',
-    component: ManagerComponent, canActivate: [canActivateAuthRole], data: { role: 'Analyst' }
+    component: ManagerComponent, canActivate: [canActivateAuthRole], data: { role: ['Analyst', 'Approver','Coordinator'] }
     //canActivate: [CoordinatorAuthGuard],
   },
   {    path: 'informationrequest',
-    component: InformationrequestComponent    , canActivate: [canActivateAuthRole],data: { role: 'Analyst' }
+    component: InformationrequestComponent    , canActivate: [canActivateAuthRole],data: { role: ['Analyst', 'Approver','Coordinator'] }
     //canActivate: [CoordinatorAuthGuard],
   },
-
+  { path: 'error', component: UnauthorizeComponent },
 ];
 
 @NgModule({

@@ -18,7 +18,7 @@ export class BaseService<T extends Base> {
     private httpClient: HttpClient,
     @Inject(BASE_URL) private url: string, 
     @Inject(BASE_ENDPOINT) private endpoint: string
-    //,    private keycloakAuthService: KeycloakAuthService
+    
   ) { }
 
   

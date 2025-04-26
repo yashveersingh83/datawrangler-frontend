@@ -26,9 +26,13 @@ export class KeycloakAuthService {
     return this.keycloak.token?.toString();
   }
 
-  /** 🔹 Get user roles */
   getUserRoles(): string[] {
-    return this.keycloak.realmAccess?.roles || [];
+    const realmRoles = this.keycloak.realmAccess?.roles || []; // Get realm roles
+    const resourceRoles: string[] = [];
+  
+  
+    // Combine realm roles and resource roles into a single array
+    return [...new Set([...realmRoles, ...resourceRoles])]; // Remove duplicates
   }
 
   /** 🔹 Check if the user has a specific role */

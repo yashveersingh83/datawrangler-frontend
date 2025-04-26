@@ -3,10 +3,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, Url
 import { inject } from '@angular/core';
 import { KeycloakAuthService } from '../services/keycloak-auth.service';
 
-/**
- * Ensures more granular role validation by checking both
- * realm-level roles and resource-specific roles.
- */
+
 const isAccessAllowed = async (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
@@ -38,20 +35,26 @@ const isAccessAllowed = async (
     return grantedRoles.resourceRoles || {};
   };
 
-  // Check if the user has the required role
-  const hasRequiredRole = (role: string): boolean => {
-    const realmRoles = grantedRoles.realmRoles || [];
-    const resourceRoles = grantedRoles.resourceRoles || {};
-
-    console.log('Realm Roles:', listRealmRoles());
-    console.log('Resource Roles:', listResourceRoles());
-
-    return (
-      realmRoles.includes(role) ||
-      Object.values(resourceRoles).some((roles) => roles.includes(role))
-    );
+  const hasRequiredRole = (roles: string[] | string): boolean => {
+    const allRoles = [
+      ...(grantedRoles.realmRoles || []),
+      ...Object.values(grantedRoles.resourceRoles || {}).flat(),
+    ];
+  
+    console.log('Granted Roles:', grantedRoles);
+    console.log('All Roles:', allRoles);
+  
+    // Normalize roles to an array
+    const roleArray = Array.isArray(roles) ? roles : roles ? [roles] : [];
+  
+    // Check if ANY role matches
+    const anyRoleMatched = roleArray.some(role => allRoles.includes(role));
+    return anyRoleMatched;
   };
+  
+  
 
+  
   if (hasRequiredRole(requiredRole)) {
     return true;
   }

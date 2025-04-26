@@ -4,9 +4,10 @@ import { AppComponent } from './app.component';
 
 
 import { UnauthorizeComponent } from './features/unauthorize/unauthorize.component';
-import { canActivateAuthRole } from './features/authentication/gaurds/auth.gaurd';
+
 
 import { DashboardComponent } from './features/analyst/dashboard/dashboard.component';
+import { canActivateAuthRole } from './core/authentication/gaurds/auth.gaurd';
 
 
 
