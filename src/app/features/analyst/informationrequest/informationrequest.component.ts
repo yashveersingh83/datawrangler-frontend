@@ -1,19 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InformationRequestModel } from '../../../shared/info-request-model';
-import { Observable, of } from 'rxjs';
 import CustomStore from 'devextreme/data/custom_store';
-import { MileStoneService } from '../../analyst/services/milestone.service';
-import { YearService } from '../../../shared/services/year-service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InforrequestService } from '../services/inforrequest.service';
-import { ManagerService } from '../services/managers.service';
-import { ManagerModel, Years } from '../../../shared/manager-model';
-import { MileStoneModel, RequestStatusModel, SubmissionTypeModel } from '../../../shared/milestone-model';
-import { OrganizationalUnitModel } from '../../../shared/organizationalUnit-model';
-import { LookupDataService } from '../../../shared/services/lookup-data-service';
 import { FeaturePermissionService } from '../../feature-permission.service';
 import { KeycloakAuthService } from '../../../core/authentication/services/keycloak-auth.service';
 import { createEmptyNavigationContext, NavigationContext } from '../../../navbar/NavigationContext';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-informationrequest',
@@ -21,69 +14,55 @@ import { createEmptyNavigationContext, NavigationContext } from '../../../navbar
   standalone: false,
   styleUrls: ['./informationrequest.component.scss']
 })
-export class InformationrequestComponent {
-  informationRequestDataSource: any;  
-  selectedRequest: InformationRequestModel | null = null;
-  isPopupVisible: boolean = false;
-  editMode: boolean = false;
-  selectedRequestId: string | null = null;
- 
-  coordinators: ManagerModel[] = []
-  approvers: ManagerModel[] = [];
-  milestones: MileStoneModel[] = [];
-  years: Years[] = [];
+export class InformationrequestComponent implements OnInit ,OnDestroy {
+  informationRequestDataSource: any;
+
+  private routerSubscription: Subscription = new Subscription;
+
+  ischildRoute: boolean = false;
+
+
   showForm: boolean = false;
-  orgUnits: OrganizationalUnitModel[] = [];
-  requestStatuses: RequestStatusModel[] = [];
-  submissionTypes: SubmissionTypeModel[] = [];
-  navigationContext: NavigationContext =createEmptyNavigationContext();
-  permissions: any ;
+
+  navigationContext: NavigationContext = createEmptyNavigationContext();
+  permissions: any;
   constructor(
-    private fb: FormBuilder,
     private inforService: InforrequestService,
-    private yearService: YearService,
-    private mileStoneService: MileStoneService,
-    private approverSerive: ManagerService ,
-    private lookupDataService: LookupDataService,
-      private featurePermissionService: FeaturePermissionService,
-          private keycloakAuthService: KeycloakAuthService
+
+    private router: Router,  
+
+    private featurePermissionService: FeaturePermissionService,
+    private keycloakAuthService: KeycloakAuthService
   ) {
-    this.initializeDataSource();
-    approverSerive.getManagerList().subscribe(
-      managers => {
-        this.approvers = managers;
+    this.initializeDataSource(); 
 
-      });
+    const roles = this.keycloakAuthService.getUserRoles();
+    const profile = this.keycloakAuthService.getUserProfile();
 
-    approverSerive.getContributors().subscribe(
-      coordinators => {
-        this.coordinators = coordinators;
-      });
+    this.navigationContext = { userRoles: roles, userProfile: profile };
+    this.permissions = this.featurePermissionService.getInformationRequestPermissions(this.navigationContext);
 
-    approverSerive.getOrgUnits().subscribe(
-      units => {
-        this.orgUnits = units;
-      });
-
-
-    this.mileStoneService.getMileStoneList()
-      .subscribe(mileStones => {
-        this.milestones = mileStones.data;
-      })
-
-      this.lookupDataService.getRequestStatus().subscribe(
-        status => {  this.requestStatuses = status; });
-
-      this.lookupDataService.getSubmissionType().subscribe(
-        type => { this.submissionTypes = type; });
-
-        const roles =  this.keycloakAuthService.getUserRoles();
-        const profile = this.keycloakAuthService.getUserProfile();
-    
-        this.navigationContext = { userRoles: roles, userProfile: profile };
-        this.permissions = this.featurePermissionService.getInformationRequestPermissions(this.navigationContext);
+   
   }
-
+  ngOnInit(): void {
+    this.routerSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.checkRoute(event.url);  // Check the URL after navigation ends
+      }
+    });
+  }
+  checkRoute(url: string): void {
+    if (url.includes('informationrequest') && (url.includes('new') || url.split('/').length > 3)) {
+      this.ischildRoute = true;
+    } else {
+      this.ischildRoute = false;
+    }
+  }ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
   initializeDataSource() {
     this.initializeRequestStore();
   }
@@ -91,37 +70,26 @@ export class InformationrequestComponent {
   private initializeRequestStore() {
     this.informationRequestDataSource = new CustomStore({
       key: 'id',
-      load: (loadOptions) => {
+      load: () => {
         const page = 1// (loadOptions.skip / loadOptions.take) + 1 || 1;
         const pageSize = 10;
         return this.inforService.getList(page, pageSize).toPromise();
       },
-      insert: (values) => {
-        return this.inforService.addRequest(values).toPromise();
-      },
-      update: (key, updatedValues) => {
-        return this.inforService.getById(key).toPromise().then(existingData => {
-          if (!existingData) {
-            throw new Error("Existing data not found.");
-          }
-          const updatedObject = { ...existingData, ...updatedValues };
-          return this.inforService.updateRequestRequest(updatedObject).toPromise();
-        }).catch(error => {
-          console.error("Error updating request:", error);
-          throw error;
-        });
-      },
-      remove: (key) => {
-        return this.inforService.deleteRequest(key).toPromise();
-      }
+     
+      // }
     });
   }
 
   openPopup(request: InformationRequestModel | null): void {
-    console.log('Opening popup with request:', request);
-    this.selectedRequest = request ? { ...request } : this.createEmptyRequest(); // Reset to empty request if null
-    this.isPopupVisible = true;
-    console.log('Popup visibility set to:', this.isPopupVisible);
+    if (request && request.id) {
+      this.ischildRoute = true;
+      console.log('Navigating to child route with id:', request.id);
+      this.router.navigate(['/analyst/informationrequest', request.id]); // This should trigger child route with id
+    } else {
+      console.log('Navigating to new request creation');
+      this.ischildRoute = true;
+      this.router.navigate(['/analyst/informationrequest', 'new']); // Navigate to 'new' route if no id
+    }
   }
 
 
@@ -134,65 +102,33 @@ export class InformationrequestComponent {
     }
   }
 
-  onSave(requestData: InformationRequestModel) {
-    if (requestData.id !='0') {
-      this.inforService.updateRequestRequest(requestData).subscribe(() => {
-        this.showForm = false;
-        this.isPopupVisible = false;
-        this.initializeDataSource(); // Refresh the data grid
-      });
-    } else {
-      this.inforService.addRequest(requestData).subscribe(() => {
-        this.showForm = false;
-        this.isPopupVisible = false;
-        this.initializeDataSource(); // Refresh the data grid
-      });
-    }
-  }
+  // onSave(requestData: InformationRequestModel) {
+  //   if (requestData.id !='0') {
+  //     this.inforService.updateRequestRequest(requestData).subscribe(() => {
+  //       this.showForm = false;
+  //       this.isPopupVisible = false;
+  //       this.initializeDataSource(); // Refresh the data grid
+  //     });
+  //   } else {
+  //     this.inforService.addRequest(requestData).subscribe(() => {
+  //       this.showForm = false;
+  //       this.isPopupVisible = false;
+  //       this.initializeDataSource(); // Refresh the data grid
+  //     });
+  //   }
+  // }
 
-  onCancel(): void {
-    console.log('Closing popup');
-    this.isPopupVisible = false;
-  }
-  private createEmptyRequest(): InformationRequestModel {
-    return {
-      id: '',
-      requestNumber: '',
-      sirYear: 0,
-      mileStoneDate: "",
-      submissionType: '',
-      organizationalUnitName: '',
-      coordinatorName: '',
-      worksheetType: '',
-      approverName: '',
-      requestStatus: '',
-      approverID: '',
-      recipientID: '',
-      milestoneID: '',
-      approver: '',
-      informationRequest: '',
-      requestStatusType: 0,
-      informationSought: '',
-      spqComment: '',
-      worksheetAvailabilityDate: null,
-      worksheetDetails: '',
-      worksheetTabs: '',
-      existingSubmissionType: '',
-      inputWorksheetLink: '',
-      latestSubmittedWorksheetLink: '',
-      ddsuCode: '',
-      requestStatusID: '',
-      organizationalUnitID: '',
-      submissionTypeID: '',
-    };
-  }
+  // onCancel(): void {
+  //   console.log('Closing popup');
+  //   this.isPopupVisible = false;
+  // }
 
   canDelete(): boolean {
     return this.permissions.canDelete(this.navigationContext);
   }
   canAdd(): boolean {
     return this.permissions.canAdd(this.navigationContext);
-  } 
+  }
   canEdit(): boolean {
     return this.permissions.canEdit(this.navigationContext);
   }

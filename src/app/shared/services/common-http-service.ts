@@ -38,6 +38,11 @@ export class BaseService<T extends Base> {
       .get<T>(`${this.url}/${this.endpoint}/${id}`)
       .pipe(retry(2), catchError(this.handleError));
   }
+  getByStringId(id: string): Observable<T> {
+    return this.httpClient
+      .get<T>(`${this.url}/${this.endpoint}/${id}`)
+      .pipe(retry(2), catchError(this.handleError));
+  }
 
   create(item: T): Observable<T> {
     return this.httpClient

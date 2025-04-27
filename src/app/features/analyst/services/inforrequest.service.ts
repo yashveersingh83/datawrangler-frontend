@@ -13,12 +13,12 @@ import { environment } from '../../../../environments/environment';
 export class InforrequestService extends BaseService<InformationRequestModel> {
   //private dataActions : InformationRequestModel[]=[]; 
 
-  constructor(httpClient: HttpClient, private router: Router) {
+  constructor( httpClient: HttpClient, private router: Router) {
     // Call the parent constructor with base URL and endpoint for user data
     super(httpClient, environment.apiUrl, 'InformationRequest');
   }
 
-  
+   
     getList(page: number = 1, pageSize: number = 10): Observable<{ data: InformationRequestModel[], totalCount: number }> {
       return this.get(page, pageSize).pipe(
         map(response => ({

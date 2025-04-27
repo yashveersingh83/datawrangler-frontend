@@ -1,0 +1,18 @@
+<div class="workflow-container">
+    <h4>Request Status Progress</h4>
+    <div class="workflow-status">
+      <div *ngFor="let status of statuses; let i = index" 
+           [ngClass]="{
+             'workflow-step': true,
+             'completed': status.intId < currentStatusIntId,
+             'active': status.intId === currentStatusIntId,
+             'upcoming': status.intId > currentStatusIntId
+           }">
+        <span class="step-icon">
+          {{ getIcon(status.status, status.intId === currentStatusIntId, status.intId < currentStatusIntId) }}
+        </span>
+        <div class="status-label">{{ status.status }}</div>
+      </div>
+    </div>
+  </div>
+  

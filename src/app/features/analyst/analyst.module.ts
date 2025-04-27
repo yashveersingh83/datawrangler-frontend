@@ -11,6 +11,8 @@ import { MilestoneModalComponent } from './milestone-modal/milestone-modal.compo
 import { InformationrequestComponent } from './informationrequest/informationrequest.component';
 import { InfoRequestAddComponent } from './info-request-add/info-request-add.component';
 import { ManagerAddEditComponent } from './manager/manager-add-edit/manager-add-edit.component';
+import { AddEditInforequestComponent } from './add-edit-inforequest/add-edit-inforequest.component';
+import { RequestStatusTrackComponent } from './request-status-track/request-status-track.component';
 
 
 
@@ -18,7 +20,9 @@ import { ManagerAddEditComponent } from './manager/manager-add-edit/manager-add-
   declarations: [ManagerComponent,MilestonelistComponent, 
     InformationrequestComponent,InfoRequestAddComponent,
     MilestoneModalComponent,
-    ManagerAddEditComponent],
+    ManagerAddEditComponent,
+    AddEditInforequestComponent,
+    RequestStatusTrackComponent],
   imports: [DevExtremeModule,DxButtonModule,
     CommonModule,
     AnalystRoutingModule,sharedModule
